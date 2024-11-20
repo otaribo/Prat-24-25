@@ -26,7 +26,7 @@ class Lavadora:
                 self.carga+=kg
                 print(f"La lavadora te {self.carga}kg de roba")
             else:
-                print("no cabe mas ropa")
+                print("no cap mas ropa")
             
 
 lavadora1 = Lavadora(carga=0,estat="Apagada")
