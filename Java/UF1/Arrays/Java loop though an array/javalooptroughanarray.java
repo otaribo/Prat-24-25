@@ -12,5 +12,6 @@ public class javalooptroughanarray{
             System.out.print(cars[i] + ", ");
         }
         System.out.println();
+        scan.close();
     }
 }
