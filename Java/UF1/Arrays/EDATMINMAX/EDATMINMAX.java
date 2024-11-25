@@ -1,14 +1,15 @@
+import java.util.Arrays;
 public class EDATMINMAX {
     public static void main(String[] var0) {
         // An array storing different ages
         int ages[] = {20, 22, 18, 35, 48, 26, 87, 70};
-
+        Arrays.sort(ages);
         float avg, sum = 0;
 
         // Get the length of the array
         int length = ages.length;
-        int edatmax = 0;
-        int edatmin = 9999999;
+        int edatmax = -999999999;
+        int edatmin = 999999999;
 
         // Loop through the elements of the array
         for (int age : ages){
