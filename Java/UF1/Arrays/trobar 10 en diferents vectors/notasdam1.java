@@ -1,7 +1,5 @@
 public class notasdam1 {
     public static void main(String[] args) {
-
-        boolean check = false;
         int total= 0;
         int[][] listas = {{9,2,8,10},{1,0,3,5,6},{9,4,10,6,7}};
 
