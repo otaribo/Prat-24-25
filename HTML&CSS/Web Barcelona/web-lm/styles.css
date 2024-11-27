@@ -1,0 +1,161 @@
+/* Estils globals */
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    line-height: 1.6;
+    background-color: #f4f4f9; /* Color de fons */
+}
+
+h1, h2, h3 {
+    color: #333; /* Color del text dels títols */
+    text-align: center;
+}
+
+p {
+    margin: 0 0 15px;
+    color: #555;
+}
+
+/* Contenidor principal per centrar el contingut */
+.container {
+    width: 90%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* Estils del menú de navegació */
+nav {
+    background: #0078d4; /* Blau del menú */
+    color: white;
+    padding: 15px 0;
+}
+
+nav ul {
+    list-style: none;
+    display: flex;
+    justify-content: center; /* Centrar els elements del menú */
+    padding: 0;
+    margin: 0;
+}
+
+nav ul li {
+    margin: 0 15px;
+}
+
+nav ul li a {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 0.3s;
+}
+
+nav ul li a:hover {
+    color: #ffd700; /* Color daurat quan passem el cursor */
+}
+
+/* Estils per al peu de pàgina */
+footer {
+    background: #333;
+    color: white;
+    text-align: center;
+    padding: 10px 0;
+    margin-top: 20px;
+}
+
+/* Estils de la pàgina d'inici */
+.hero {
+    background-image: url('../images/barcelona.jpg'); /* Canviar per la ruta real */
+    background-size: cover;
+    background-position: center;
+    color: white;
+    padding: 100px 20px;
+    text-align: center;
+}
+
+.hero h1 {
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+}
+
+.hero p {
+    font-size: 1.2rem;
+}
+
+/* Contenidor amb Flexbox */
+.flex-container {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap; /* Per assegurar que els elements s'ajustin */
+    gap: 20px;
+}
+
+/* Estils per a les cartes de monuments */
+.card {
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: calc(33% - 20px); /* Ample automàtic segons 3 columnes */
+    overflow: hidden;
+    transition: transform 0.3s;
+}
+
+.card img {
+    width: 100%;
+    height: 45%;
+}
+
+.card h3 {
+    padding: 10px;
+    margin: 0;
+}
+
+.card p {
+    padding: 10px;
+}
+
+.card:hover {
+    transform: scale(1.05); /* Efecte de zoom */
+}
+
+/* Botó estilitzat */
+.button {
+    display: inline-block;
+    background: #0078d4;
+    color: white;
+    padding: 10px 15px;
+    text-decoration: none;
+    border-radius: 5px;
+    text-align: center;
+    transition: background 0.3s;
+    margin: 15px;
+}
+
+.button:hover {
+    background: #0056a3;
+}
+
+/* Responsivitat */
+@media (max-width: 768px) {
+    .card {
+        width: calc(50% - 20px); /* 2 columnes a pantalles mitjanes */
+    }
+}
+
+@media (max-width: 480px) {
+    .card {
+        width: 100%; /* 1 columna a pantalles petites */
+    }
+
+    nav ul {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    nav ul li {
+        margin: 10px 0;
+    }
+}
