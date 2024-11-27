@@ -13,5 +13,5 @@ class alumne:
         self.nota = nota
 
     def actualitzar_edat(self, edat):
-        if edat > 0
-        self.edat = edat
+        if edat > 0:
+            self.edat = edat
