@@ -11,7 +11,7 @@ public class cambiarA0{
                 if(i%2==0){
                     llista[i][j] = 0;
                 }
-                System.out.print(llista[i][j]);
+                System.out.print("[" + llista[i][j] + "]");
             }
             System.out.println();
         }
