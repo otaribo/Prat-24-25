@@ -13,12 +13,17 @@ public class cambiar_valor_a_1{
                 else{
                     llista[i][j] = 0;
                 }
-                System.out.print("[" + llista[i][j] +"]");
+                if(llista[i][j] == 1){
+                    System.out.print("\033[31m" + "[" + llista[i][j] +"]");
+                }
+                else{
+                    System.out.print("\033[97m" + "[" + llista[i][j] +"]");
+                }
+                
                 System.out.print(" ");
 
             }
-            System.out.println();
+            System.out.println("\033[0m");
         }
     }
 }
-jjjj
