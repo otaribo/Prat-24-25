@@ -1,4 +1,5 @@
 import java.util.Scanner;
+import java.util.Random;
 public class tresenralla {
     static int[][] tablero = {{0,0,0},{0,0,0},{0,0,0}};
     static String[][] posicions = {{"[1]","[2]","[3]"},{"[4]","[5]","[6]"},{"[7]","[8]","[9]"}};
@@ -9,8 +10,7 @@ public class tresenralla {
         while(joc_actiu){
             act_screen();
             System.out.print("Selecciona una casella: ");
-            //int[] eleccio = mirar_eleccio((torn%2==0)?scan.nextInt():ia());
-            int[] eleccio = mirar_eleccio(scan.nextInt());
+            int[] eleccio = mirar_eleccio((torn%2==0)?scan.nextInt():ia());
             mirar_disponibilitat(eleccio, torn);
             System.out.println("Prem enter per continuar");
             if(comprobar()==1){joc_actiu=false;}
@@ -68,16 +68,13 @@ public class tresenralla {
         }
         return guanyador;
     }
-//    public static int[][] ia(){
-//      int[] posicio = new int;
-//          for(int i = 0;i<posicions.length;i++){0
-//              for(int j = 0;j<posicions.length;j++){
-//                  if(tablero[i][j]==0){
-//                      
-//                      }
-//                  }
-//              }
-//          }
-//      return posicio;
-//    }
+    public static int ia(){
+        Random random = new Random();
+        int[] posicio;
+        do {
+            int eleccio = random.nextInt(9) + 1;
+            posicio = mirar_eleccio(eleccio);
+        } while (tablero[posicio[0]][posicio[1]] != 0);
+        return (posicio[0] * 3 + posicio[1]) + 1;
+    }
 }
