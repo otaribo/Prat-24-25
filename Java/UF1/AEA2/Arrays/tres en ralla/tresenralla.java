@@ -9,6 +9,7 @@ public class tresenralla {
         while(joc_actiu){
             act_screen();
             System.out.print("Selecciona una casella: ");
+            //int[] eleccio = mirar_eleccio((torn%2==0)?scan.nextInt():ia());
             int[] eleccio = mirar_eleccio(scan.nextInt());
             mirar_disponibilitat(eleccio, torn);
             System.out.println("Prem enter per continuar");
@@ -67,5 +68,16 @@ public class tresenralla {
         }
         return guanyador;
     }
-
+//    public static int[][] ia(){
+//      int[] posicio = new int;
+//          for(int i = 0;i<posicions.length;i++){0
+//              for(int j = 0;j<posicions.length;j++){
+//                  if(tablero[i][j]==0){
+//                      
+//                      }
+//                  }
+//              }
+//          }
+//      return posicio;
+//    }
 }
