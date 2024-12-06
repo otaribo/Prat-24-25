@@ -71,10 +71,11 @@ public class tresenralla {
     public static int ia(){
         Random random = new Random();
         int[] posicio;
+        int eleccio = 0;
         do {
-            int eleccio = random.nextInt(9) + 1;
+            eleccio = random.nextInt(9) + 1;
             posicio = mirar_eleccio(eleccio);
         } while (tablero[posicio[0]][posicio[1]] != 0);
-        return (posicio[0] * 3 + posicio[1]) + 1;
+        return eleccio;
     }
 }
