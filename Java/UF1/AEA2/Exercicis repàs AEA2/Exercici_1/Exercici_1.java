@@ -1,6 +1,6 @@
 import java.util.ArrayList;
 public class Exercici_1 {
-    static int[][] lista = new int [5][5];
+    public static int[][] lista = new int [5][5];
     public static void main(String[] args){
         //Aquesta funcio posa els valors random a cada posicio de la matriu
         InicialitzacioRandoms();
