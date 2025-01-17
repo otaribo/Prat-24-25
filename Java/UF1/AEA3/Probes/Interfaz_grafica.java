@@ -20,3 +20,5 @@ public class Interfaz_grafica extends JFrame{
     new Interfaz_grafica();
   }
 }
+
+8

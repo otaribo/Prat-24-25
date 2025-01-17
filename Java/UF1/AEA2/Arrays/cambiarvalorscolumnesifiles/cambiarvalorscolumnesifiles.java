@@ -1,6 +1,8 @@
+import java.util.Scanner;
 public class cambiarvalorscolumnesifiles {
     public static void main(String[] args){
-        int[][] llista = new int[30][30];
+        Scanner scan = new Scanner(System.in);
+        int[][] llista = new int[scan.nextInt()][scan.nextInt()];
         for(int i = 0;i<llista.length;i++){
             for(int j = 0;j<llista.length;j++){
                 //columna parella i fila parella
