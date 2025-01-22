@@ -54,26 +54,32 @@ class Escudero(Personaje):
     def daño(self, enemigo):
         return self.ataque + self.escudo - enemigo.reduccion_daño()
 
-def Turno(Turno):
-    Accion = 0
-    while(Accion != 1 or 2 or 3):
+def AccionJugador():
+    while(Accion != 1 or Accion != 2 or Accion != 3):
         Accion = int(input("[1] Atacar \n[2] Defender \n[3] Curarse"))
-        if Accion == 1:
-            Personaje1.atacar(Personaje2)
-        
-        elif Accion == 2:
-            Personaje1.defender()
-
-        elif Accion == 3:
-            Personaje1.curar()
+    return Accion
     
-    numeroTurno = numeroTurno + 1
+
+def AccionCPU(Personaje2):
+    if Personaje2.vida <= (Personaje2.vidaMax/100*30) and Personaje1.vida > Personaje2.daño(Personaje1):
+        Accion = 3
+    elif Personaje1.vida > Personaje2.daño(Personaje1):
+        Accion = 1
+    elif Personaje1.vida < Personaje2.daño(Personaje1):
+        Accion = 2
+    else:
+        Accion = 1
+
+    return Accion
 
 def partida():
     numeroTurno = 0
     while(Personaje1.vivo and Personaje2.vivo):
         Turno(numeroTurno)
 
+def Turno(numeroTurno):
+    print(f"Turno {numeroTurno}:")
+    AccionJugador()
 
 
 
