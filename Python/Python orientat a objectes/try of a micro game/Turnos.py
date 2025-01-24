@@ -16,13 +16,18 @@ class Partida():
 
     def Iniciar(self, Player, CPU):
         self.NumeroTurno = 0
-        while self.Player.vida > 0 and self.CPU.vida > 0:
-            self.Turno(Player, CPU)
+        self.Turno(Player, CPU)
 
     def Turno(self, Player, CPU):
+        Player.defendiendo = False
+        CPU.defendiendo = False
         self.Acciones(Player, self.AccionJugador)
-        self.Acciones(CPU, self.AccionCPU(self.CPU,self.Player))
+        self.Acciones(CPU, self.AccionCPU(CPU, Player))
         self.NumeroTurno += 1
+        if Player.vida > 0 and CPU.vida > 0:
+            self.Turno(Player, CPU)
+        else:
+            print("Partida acabada")
 
     def Acciones(self, Player, Accion):
         if Accion ==1:
@@ -34,11 +39,15 @@ class Partida():
             print(f"{Player.nombre} se ha curado {Player.curar} puntos de salud")
             Player.curarse
     def AccionJugador():
-        while(Accion != 1 or Accion != 2 or Accion != 3):
-            Accion = int(input("[1] Atacar \n[2] Defender \n[3] Curarse"))
-        respuesta = Accion
-        Accion=0
-        return respuesta
+        
+        while True:
+            try:
+                Accion = int(input("[1] Atacar \n[2] Defender \n[3] Curarse"))
+                if Accion == [1,2,3]:
+                    return Accion
+            except ValueError:
+                    print("Valor Invalid")
+
     def AccionCPU(self, CPU, Player):
         if CPU.vida <= (CPU.vidaMax/100*30) and Player.vida > CPU.daño(Player):
             Accion = 3
@@ -69,7 +78,7 @@ class Personaje:
         print("     Defensa: " + str(self.defensa))
     
     def daño(self, enemigo):
-        return self.ataque - enemigo.reduccion_daño()
+        return (self.ataque - enemigo.reduccion_daño())
     
     def reduccion_daño(self):
         return self.defensa

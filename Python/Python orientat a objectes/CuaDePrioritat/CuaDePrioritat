@@ -1,0 +1,5 @@
+Heapq --> Llibreria
+Document --> Prioritat [1,2,3,4,6, ...]
+1. Afegir document
+2. Ordenar per prioritat (Si tenen el mateix nivell de prioritat ordenar per temps)
+3.Imprimir Cua
