@@ -25,7 +25,7 @@ public class CalculArees{
 	boolean Esta_a_la_llista = ListaFiguras.contains(EleccioFigura.toLowerCase());
 	
 	if (Esta_a_la_llista == true){
-		System.out.println("Has seleccionat: " + EleccioFigura.toLowerCase);
+		System.out.println("Has seleccionat: " + EleccioFigura.toLowerCase());
 			if (EleccioFigura == ("triangle")){
 				System.out.println("Introdueix la base:");
 				Scanner ScanBase = new Scanner(System.in);
@@ -34,7 +34,7 @@ public class CalculArees{
 				Scanner ScanAltura = new Scanner(System.in);
 				double Altura = ScanAltura.nextDouble();
 			}
-			else if (EleccioFigura == ("quadrat")("rombe")("rectangle")("trapezi")){
+			else if (EleccioFigura == ("quadrat")||EleccioFigura == ("rombe")||EleccioFigura == ("rectangle")||EleccioFigura == ("trapezi")){
 				System.out.println("Introdueix la base:");
 				Scanner ScanBase = new Scanner(System.in);
 				double Base = ScanBase.nextDouble();
