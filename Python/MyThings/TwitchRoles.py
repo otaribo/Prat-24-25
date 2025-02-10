@@ -3,7 +3,11 @@ from discord.ext import commands
 from twitchAPI.twitch import Twitch
 
 # CONFIGURATION
+<<<<<<< HEAD
 DISCORD_TOKEN = ""
+=======
+DISCORD_TOKEN = ""
+>>>>>>> ca69040 (10/2/2025)
 TWITCH_CLIENT_ID = "your_twitch_client_id"
 TWITCH_CLIENT_SECRET = "your_twitch_client_secret"
 TWITCH_CHANNEL = "your_twitch_channel_name"
