@@ -1,4 +1,4 @@
-package Java.UF1.AEA3.Element_mes_petit_de_un_array;
+
 
 public class Elementmespetit {
     public static void main(String[] args){
