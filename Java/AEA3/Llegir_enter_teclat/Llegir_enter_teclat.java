@@ -1,4 +1,4 @@
-package Java.UF1.AEA3.Llegir_enter_teclat;
+
 import java.util.Scanner;
 public class Llegir_enter_teclat {
     public static void main(String[] args){
