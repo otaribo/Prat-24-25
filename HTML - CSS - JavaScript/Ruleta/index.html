@@ -1,0 +1,34 @@
+<html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Ruleta Interactiva</title>
+        <link rel="stylesheet" href="styles.css">
+    </head>
+    <body>
+        <div>
+          <canvas id="ruleta" width="400" height="400"></canvas>
+          <div id="controls">
+            <input type="number" id="posiciones-input" placeholder="Número de posiciones" min="1">
+            <button id="actualizar-posiciones">Actualizar Posiciones</button>
+            <button id="spin-button">Girar Ruleta</button>
+            <button id="edit-button">Editar Casilla</button>
+          </div>
+        </div>
+      
+        <!-- Modal para editar casillas -->
+        <div id="edit-modal">
+          <h3>Editar Casilla</h3>
+          <label for="casilla-id">Número de Casilla:</label>
+          <input type="number" id="casilla-id" min="1">
+          <label for="casilla-texto">Nuevo Texto:</label>
+          <input type="text" id="casilla-texto">
+          <button id="guardar-cambios">Guardar Cambios</button>
+          <button id="eliminar-casilla">Eliminar Casilla</button>
+          <button id="cerrar-modal">Cerrar</button>
+        </div>
+      
+        <script src="script.js"></script>
+    </body>
+</html>
+
