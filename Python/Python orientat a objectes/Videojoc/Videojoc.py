@@ -1,12 +1,14 @@
 import pygame
 import random
 import sys
+import os
+from PIL import Image
 
 # ========================
 # Configuració inicial
 # ========================
-WIDTH = 800
-HEIGHT = 600
+WIDTH = 1920
+HEIGHT = 1080
 FPS = 60
 
 # Colors (RGB)
@@ -14,6 +16,14 @@ WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
 RED   = (255, 0, 0)
 BLUE  = (0, 0, 255)
+
+#Sprites
+
+
+enemigo = "sprites//enemies"
+ruta_playerSprite = "sprites//character//images.png"
+player = Image.open(ruta_playerSprite)
+
 
 # Inicialitzar Pygame i la finestra
 pygame.init()
@@ -49,8 +59,10 @@ class Player(pygame.sprite.Sprite):
     """Classe per al jugador."""
     def __init__(self):
         super().__init__()
-        self.image = pygame.Surface((50, 50))
-        self.image.fill(BLUE)
+        size = 40
+        photo_height, photo_width = player.size
+        self.image = pygame.image.load(ruta_playerSprite)
+        self.image = pygame.transform.scale(self.image, ((size/photo_width*500), (size/photo_height*500)))
         self.rect = self.image.get_rect()
         self.rect.center = (100, HEIGHT // 2)
         self.speed = 5
@@ -82,14 +94,18 @@ class Obstacle(pygame.sprite.Sprite):
     def __init__(self):
         super().__init__()
         # Crear un obstacle amb dimensions aleatòries
-        width = random.randint(20, 100)
-        height = random.randint(20, 100)
-        self.image = pygame.Surface((width, height))
-        self.image.fill(RED)
+        size = random.randint(20, 100)
+        listaSprites = [f for f in os.listdir(enemigo) if f.lower().endswith(('.png', '.jpg', '.jpeg', '.gif', '.bmp'))]
+        randompick = random.choice(listaSprites)
+        path = os.path.join(enemigo,randompick)
+        image = Image.open(path)
+        photo_height, photo_width = image.size
+        self.image = pygame.image.load(path)
+        self.image = pygame.transform.scale(self.image, ((size/photo_width*500), (size/photo_height*500)))
         self.rect = self.image.get_rect()
         # Posició inicial: fora de la pantalla per la dreta
         self.rect.x = WIDTH + random.randint(10, 100)
-        self.rect.y = random.randint(0, HEIGHT - height)
+        self.rect.y = random.randint(0, HEIGHT - size)
         # La velocitat s'incrementa amb la dificultat
         self.speed = random.randint(3 + difficulty_level, 7 + difficulty_level)
 
