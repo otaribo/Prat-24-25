@@ -16,24 +16,34 @@ WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
 RED   = (255, 0, 0)
 BLUE  = (0, 0, 255)
+GREEN = (0,255,0)
 
-#Sprites & Wallpapers
 #============================================
-#Enemigos
+# Paths
+#============================================
+# Enemigos
 enemigo = r"C:\\Github\\Prat-24-25\\Python\\Python orientat a objectes\\Videojoc\\sprites\\enemies"
 
-#Personaje
+# Personaje
 ruta_CharacterSprites = r"C:\\Github\\Prat-24-25\\Python\\Python orientat a objectes\\Videojoc\\sprites\\character"
-player_sprite = os.path.join(ruta_CharacterSprites,"player.png")
-player = Image.open(player_sprite)
+player_sprite_path = os.path.join(ruta_CharacterSprites,"player.png")
+player_sprite = Image.open(player_sprite_path)
  
 disparo_sprite = os.path.join(ruta_CharacterSprites,"disparo.png")
  
-#Wallpapers
+# Wallpapers
 
 menuWallpaper = r"C:\\Github\\Prat-24-25\\Python\\Python orientat a objectes\\Videojoc\\Fondos\\analog-horror.png"
 juegoWalpaper = r"C:\\Github\\Prat-24-25\\Python\\Python orientat a objectes\\Videojoc\\Fondos\\Fondo_juego.webp"
-menuPausaWallpaper = r"C:\\Github\\Prat-24-25\\Python\\Python orientat a objectes\\Videojoc\\Fondos\\menu_animacion"
+menuPausaWallpaper = r"C:\\Github\\Prat-24-25\\Python\\Python orientat a objectes\\Videojoc\\Fondos\\menu_animation"
+FazbearPizzeriaWalking = r"C:\\Github\\Prat-24-25\\Python\\Python orientat a objectes\\Videojoc\\Fondos\\fazbear_pizzeria_walking"
+
+# Music
+
+AudioFiles = r"C:\\Github\\Prat-24-25\\Python\\Python orientat a objectes\\Videojoc\\Audio_Files"
+PauseMenuSoundtrack = os.path.join(AudioFiles,"PauseMenu.mp3")
+GameSountrack = os.path.join(AudioFiles,"GameSoundtrack.mp3")
+StartMenuMusic = os.path.join(AudioFiles, "StartMenuMusic.mp3")
 #============================================
 
 
@@ -49,7 +59,6 @@ font = pygame.font.SysFont("Arial", 24)
 # ========================
 score = 0
 difficulty_level = 1
-lives = 3
 last_difficulty_update_time = pygame.time.get_ticks()
 spawn_interval = 1500
 ADD_OBSTACLE = pygame.USEREVENT + 1
@@ -73,12 +82,14 @@ class Player(pygame.sprite.Sprite):
     def __init__(self):
         super().__init__()
         size = 40
-        photo_height, photo_width = player.size
-        self.image = pygame.image.load(player_sprite)
+        photo_height, photo_width = player_sprite.size
+        self.image = pygame.image.load(player_sprite_path)
         self.image = pygame.transform.scale(self.image, ((size/photo_width*500), (size/photo_height*500)))
         self.rect = self.image.get_rect()
         self.rect.center = (100, HEIGHT // 2)
         self.speed = 5
+        self.vida = 10
+        self.UltimoGolpe = 0
 
     def update(self):
         """Actualitza la posició del jugador segons les tecles premudes."""
@@ -146,15 +157,63 @@ class Disparo(pygame.sprite.Sprite):
             self.rect.x += self.speed
             if self.rect.x >= WIDTH:
                 self.kill()
-            
-            
+
+#================ #
+# Clases Interfaz #
+#================ #
+
+class Button:
+    def __init__(self, x, y, width, height, text, font, color, hover_color):
+        self.rect = pygame.Rect(x, y, width, height)
+        self.text = text
+        self.font = font
+        self.color = color
+        self.hover_color = hover_color
+        self.hovered = False
+
+    def draw(self, surface):
+        color = self.hover_color if self.hovered else self.color
+        pygame.draw.rect(surface, color, self.rect, border_radius=10) 
+        text_surface = self.font.render(self.text, True, WHITE)
+        text_rect = text_surface.get_rect(center=self.rect.center)
+        surface.blit(text_surface, text_rect)
+
+    def check_hover(self, mouse_pos):
+        self.hovered = self.rect.collidepoint(mouse_pos)
+
+    def is_clicked(self, mouse_pressed):
+        return (self.hovered and mouse_pressed[0])    
+ 
+class Fazbear(pygame.sprite.Sprite):
+    def __init__(self, y):
+        super().__init__()
+        self.rect = pygame.Rect(-1452, y, 1452, 528)
+        self.rect.x = -1452
+        self.rect.y = y
+        fazbear = [f for f in os.listdir(FazbearPizzeriaWalking) if f.lower().endswith(('.png', '.jpg', '.jpeg', '.gif', '.bmp'))]
+        self.image = pygame.image.load((os.path.join(FazbearPizzeriaWalking,fazbear[0]) if FPS%2==0 else (os.path.join(FazbearPizzeriaWalking,fazbear[1]))))
+        self.direccion = 0
+    
+    def update(self, surface):
+        pygame.draw.rect
+        if (self.rect.x < (WIDTH+1452) and self.direccion == 0):
+            self.rect.x += 10
+        elif (self.rect.x >= (WIDTH+1452)):
+            self.image = pygame.transform.flip(1,0)
+            self.direccion = 1
+        elif (self.rect.x > (-1452) and self.direccion == 1):
+            self.rect.x -= 10
+        elif (self.rect.x <= (-1452)):
+            self.image = pygame.transform.flip(0,0)
+            self.direccion = 0
 
 
-# ========================
-# Funció per reinicialitzar el Joc
-# ========================
 
-def new_game():
+# ================================ #
+# Funció per reinicialitzar el Joc #
+# ================================ #
+
+def inicialitzacio():
     """Reinicialitza totes les variables i grups per començar una nova partida."""
     global score, difficulty_level, lives, last_difficulty_update_time, spawn_interval, all_sprites, obstacles, player, disparos
     score = 0
@@ -169,36 +228,63 @@ def new_game():
     disparos = pygame.sprite.Group()
     all_sprites.add(player)
 
-# ========================
-# Funció per mostrar el menú principal
-# ========================
+# ==================================== #
+# Funció per mostrar el menú principal #
+# ==================================== #
 
-def show_menu():
+def inici():
     """Mostra la pantalla de menú d'inici i espera que l'usuari premi alguna tecla per començar."""
+    inicialitzacio()
+    pygame.mixer.music.load(StartMenuMusic)
+    pygame.mixer.music.play(-1)
+    pygame.mixer.music.set_volume(150.0)
     menu = pygame.image.load(menuWallpaper)
     menu = pygame.transform.scale(menu, (WIDTH, HEIGHT))
+    screen.blit(menu,(0,0))
+    button_font = pygame.font.SysFont("Arial", 36)
+    Play_button = Button((WIDTH / 2 - 100), (HEIGHT / 2 - 100), 200, 50, "Jugar", button_font, BLUE, RED)
+    Quit_button = Button((WIDTH / 2 - 100), (HEIGHT / 2 + 150), 200, 50, "Salir", button_font, BLUE, RED)
     waiting = True
     while waiting:
         clock.tick(FPS)
+        draw_text(screen, "Python VHS Game", font, WHITE,(WIDTH / 2 - 100),(HEIGHT / 2 - 50))
+        mouse_pos = pygame.mouse.get_pos()
+        mouse_pressed = [pygame.mouse.get_pressed()]
+
+        Play_button.check_hover(mouse_pos)
+        Quit_button.check_hover(mouse_pos)
+
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
+                pygame.mixer.music.stop()  # Detener el audio antes de salir
                 pygame.quit()
                 sys.exit()
-            if event.type == pygame.KEYDOWN:
-                waiting = False
-        screen.blit(menu,(0,0))
-        draw_text(screen, "Joc Extensible", font, BLACK, 300, 200)
-        draw_text(screen, "Prem qualsevol tecla per començar", font, BLACK, 220, 250)
-        pygame.display.flip()
 
-# ========================
-# Funció per executar la partida
-# ========================
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if Play_button.is_clicked(mouse_pressed):  # Reanudar juego
+                    Waiting = False
+                    game_loop()
+                    
+                elif Quit_button.is_clicked(mouse_pressed):  # Salir del juego
+                    pygame.mixer.music.stop()  # Detener el audio antes de salir
+                    pygame.quit()
+                    sys.exit()
+
+        Play_button.draw(screen)
+        Quit_button.draw(screen)
+        pygame.display.flip()
+    game_loop()
+
+# ============================== #
+# Funció per executar la partida #
+# ============================== #
 
 def game_loop():
+    pygame.mixer.music.load(GameSountrack)
+    pygame.mixer.music.play(-1)
+    pygame.mixer.music.set_volume(0.2)
     """Executa el bucle principal de la partida."""
-    global difficulty_level, last_difficulty_update_time, spawn_interval, lives
-    new_game()
+    global difficulty_level, last_difficulty_update_time, spawn_interval, lives, running
     menu = pygame.image.load(juegoWalpaper)
     menu = pygame.transform.scale(menu, (WIDTH, HEIGHT))
     game_state = "playing"
@@ -218,6 +304,7 @@ def game_loop():
                 all_sprites.add(disparo)
                 disparos.add(disparo)
             elif event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
+                pygame.mixer.music.stop()
                 show_pause_menu()
 
         # Incrementar la dificultat cada 15 segons
@@ -231,14 +318,13 @@ def game_loop():
         all_sprites.update()
         # Comprovar col·lisions
         if pygame.sprite.spritecollideany(player, obstacles):
-            lives -= 1
-            if lives > 0:
-                # Reinicialitzar la posició del jugador i esborrar els obstacles
-                player.rect.center = (100, HEIGHT // 2)
-                for obs in obstacles:
-                    obs.kill()
-            else:
-                game_state = "game_over"
+                if (current_time - player.UltimoGolpe) > 500: 
+                    player.vida -= 1
+                    if player.vida >= 1:
+                        player.UltimoGolpe = pygame.time.get_ticks()
+                    else:
+                        pygame.mixer.music.stop()
+                        game_state = "game_over"
 
         collisions = pygame.sprite.groupcollide(disparos, obstacles, True, True)
         if collisions:
@@ -248,18 +334,19 @@ def game_loop():
         # Dibuixar la escena
         screen.blit(menu,(0,0))
         all_sprites.draw(screen)
-        score_text = font.render("Puntuació: " + str(score), True, BLACK)
-        difficulty_text = font.render("Dificultat: " + str(difficulty_level), True, BLACK)
-        lives_text = font.render("Vides: " + str(lives), True, BLACK)
+
+        draw_health_bar(screen, 10, 100, player.vida, 10)
+
+        score_text = font.render("Puntuació: " + str(score), True, WHITE)
+        difficulty_text = font.render("Dificultat: " + str(difficulty_level), True, WHITE)
         screen.blit(score_text, (10, 10))
         screen.blit(difficulty_text, (10, 40))
-        screen.blit(lives_text, (10, 70))
         pygame.display.flip()
-    return score
+    show_game_over(score)
 
-# ========================
-# Funció per mostrar la pantalla de Game Over
-# ========================
+# =========================================== #
+# Funció per mostrar la pantalla de Game Over #
+# =========================================== #
 
 def show_game_over(final_score):
     """Mostra la pantalla de Game Over amb la puntuació final i espera per reiniciar."""
@@ -277,53 +364,89 @@ def show_game_over(final_score):
         draw_text(screen, "Puntuació Final: " + str(final_score), font, BLACK, 320, 250)
         draw_text(screen, "Prem qualsevol tecla per reiniciar", font, BLACK, 250, 300)
         pygame.display.flip()
+        player.kill()
+        inici()
 
-#=========================
-# Funcio del Menu de pausa
-#=========================
+# ======================== #
+# Funcio del Menu de pausa #
+# ======================== #
 def show_pause_menu():
-    """Muestra el menú de pausa con un fondo animado usando imágenes como frames."""
-    frames = [f for f in os.listdir(menuPausaWallpaper)]
+   
+    frames = [f for f in os.listdir(menuPausaWallpaper) if f.lower().endswith(('.png', '.jpg', '.jpeg', '.gif', '.bmp'))]
+    
     paused = True
     frame_index = 0
+    
+    pygame.mixer.music.load(PauseMenuSoundtrack)
+    pygame.mixer.music.play(-1)
+    pygame.mixer.music.set_volume(1.0)
 
+    button_font = pygame.font.SysFont("Arial", 36)
+    resume_button = Button((WIDTH / 2 - 100), (HEIGHT / 2 - 50), 200, 50, "Reanudar", button_font, BLUE, RED)
+    quit_button = Button((WIDTH / 2 - 100), (HEIGHT / 2 + 50), 200, 50, "Salir", button_font, BLUE, RED)
+    fazbear=Fazbear(800)
+    all_sprites.add(fazbear)
+
+    
     while paused:
         clock.tick(30)  # Control de FPS
 
-        # Cargar el frame actual
-        frame = pygame.image.load(os.path.join(menuPausaWallpaper,frames[frame_index]))
-        frame = pygame.transform.scale(frame, (WIDTH, HEIGHT))
-        screen.blit(frame, (0, 0))  # Dibujar el frame en la pantalla
+        mouse_pos = pygame.mouse.get_pos()
+        mouse_pressed = [pygame.mouse.get_pressed()]
 
-        # Mostrar texto del menú
-        draw_text(screen, "PAUSA", font, WHITE, WIDTH//2 - 40, HEIGHT//3)
-        draw_text(screen, "Presiona [P] para continuar", font, WHITE, WIDTH//2 - 120, HEIGHT//2)
-        draw_text(screen, "Presiona [Q] para salir", font, WHITE, WIDTH//2 - 100, HEIGHT//2 + 40)
+        resume_button.check_hover(mouse_pos)
+        quit_button.check_hover(mouse_pos)
+        
+        if frames:  # Solo intenta cargar el frame si hay frames disponibles
+            # Cargar el frame actual
+            frame = pygame.image.load(os.path.join(menuPausaWallpaper, frames[frame_index]))
+            frame = pygame.transform.scale(frame, (WIDTH, HEIGHT))
 
-        pygame.display.flip()
-
+            screen.blit(frame, (0, 0))  # Dibujar el frame en la pantalla
         # Cambiar de frame (hace un loop infinito)
-        frame_index = (frame_index + 1) % len(frames)
+        if frames:  # Solo incrementa el índice si hay frames disponibles
+            frame_index = (frame_index + 1) % len(frames)
 
         # Manejo de eventos
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
+                pygame.mixer.music.stop()  # Detener el audio antes de salir
                 pygame.quit()
                 sys.exit()
-            if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_p:  # Reanudar juego
+
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if resume_button.is_clicked(mouse_pressed):  # Reanudar juego
                     paused = False
-                elif event.key == pygame.K_q:  # Salir del juego
-                    pygame.quit()
-                    sys.exit()
+                    pygame.mixer.music.stop()
+                    print("resume button clicked")
+                    game_loop()
+                    
+                elif quit_button.is_clicked(mouse_pressed):  # Salir del juego
+                    pygame.mixer.music.stop()
+                    print("quit button clicked")
+                    inici()
+
+        resume_button.draw(screen)
+        quit_button.draw(screen)
+        fazbear.update(screen)
+        
+        pygame.display.flip()
+
+# ==================================== #
+# Funcio per definir una barra de vida #
+# ==================================== #
+
+def draw_health_bar(surface, x, y, current_health, max_health):
+    """Dibuja una barra de vida en la pantalla."""
+    bar_width = 200  # Ancho de la barra de vida
+    bar_height = 20   # Alto de la barra de vida
+    fill = (current_health / max_health) * bar_width  # Longitud de la barra de vida actual
+
+    # Dibujar el fondo de la barra de vida (vacía)
+    pygame.draw.rect(surface, RED, (x, y, bar_width, bar_height))
+
+    # Dibujar la barra de vida actual (relleno)
+    pygame.draw.rect(surface, GREEN, (x, y, fill, bar_height))
 
 
-
-# ========================
-# Bucle principal del programa
-# ========================
-
-while True:
-    show_menu()                   # Mostrar menú d'inici
-    final_score = game_loop()       # Executar la partida
-    show_game_over(final_score)     # Mostrar pantalla de Game Over i esperar reinici
+inici()
