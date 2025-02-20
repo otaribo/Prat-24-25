@@ -9,7 +9,7 @@ from PIL import Image
 # ========================
 WIDTH = 1920
 HEIGHT = 1080
-FPS = 60
+FPS = 144
 
 # Colors (RGB)
 WHITE = (255, 255, 255)
@@ -53,6 +53,7 @@ screen = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Joc python")
 clock = pygame.time.Clock()
 font = pygame.font.SysFont("Arial", 24)
+TittleFont = pygame.font.SysFont("Arial", 150)
 
 # ========================
 # Variables Globals del Joc
@@ -112,25 +113,21 @@ class Player(pygame.sprite.Sprite):
             self.rect.top = 0
         if self.rect.bottom > HEIGHT:
             self.rect.bottom = HEIGHT
+        
 
-class Obstacle(pygame.sprite.Sprite):
+class Enemigo(pygame.sprite.Sprite):
     """Classe per als obstacles."""
     def __init__(self):
         super().__init__()
-        # Crear un obstacle amb dimensions aleatòries
-        size = random.randint(20, 100)
-        listaSprites = [f for f in os.listdir(enemigo) if f.lower().endswith(('.png', '.jpg', '.jpeg', '.gif', '.bmp'))]
-        randompick = random.choice(listaSprites)
-        path = os.path.join(enemigo,randompick)
+        self.size = 40
+        path = os.path.join(enemigo,"Donkey.png")
         image = Image.open(path)
-        photo_height, photo_width = image.size
+        self.photo_height, self.photo_width = image.size
         self.image = pygame.image.load(path)
-        self.image = pygame.transform.scale(self.image, ((size/photo_width*500), (size/photo_height*500)))
+        self.image = pygame.transform.scale(self.image, ((self.size/self.photo_width*500), (self.size/self.photo_height*500)))
         self.rect = self.image.get_rect()
-        # Posició inicial: fora de la pantalla per la dreta
-        self.rect.x = WIDTH + random.randint(10, 100)
-        self.rect.y = random.randint(0, HEIGHT - size)
-        # La velocitat s'incrementa amb la dificultat
+        self.rect.x = (WIDTH + self.photo_width + 15)
+        self.rect.y = random.randint(0 + self.photo_height, HEIGHT - self.photo_height)
         self.speed = random.randint(3 + difficulty_level, 7 + difficulty_level)
 
     def update(self):
@@ -141,6 +138,23 @@ class Obstacle(pygame.sprite.Sprite):
         if self.rect.right < 0:
             score += 1
             self.kill()
+class Enemigo_Tipo_1(Enemigo):
+    def __init__(self):
+        super().__init__()
+        self.size = 70
+        path = os.path.join(enemigo,"other.png")
+        self.image = pygame.image.load(path)
+        self.image = pygame.transform.scale(self.image, (((self.size/self.photo_width*500), (self.size/self.photo_height*500))))
+        
+class Enemigo_Tipo_2(Enemigo):
+    def __init__(self):
+        super().__init__()
+        self.size = 100
+        path = os.path.join(enemigo,"Donkey.png")
+        self.image = pygame.image.load(path)
+        self.image = pygame.transform.scale(self.image, (((self.size/self.photo_width*500), (self.size/self.photo_height*500))))
+
+
 
 class Disparo(pygame.sprite.Sprite):
     def __init__(self,x,y):
@@ -185,29 +199,45 @@ class Button:
         return (self.hovered and mouse_pressed[0])    
  
 class Fazbear(pygame.sprite.Sprite):
-    def __init__(self, y):
+    def __init__(self, y, tamaño):
         super().__init__()
-        self.rect = pygame.Rect(-1452, y, 1452, 528)
+        self.heigth = (528/tamaño*200)
+        self.width = (1452/tamaño*200)
+        self.rect = pygame.Rect(-1452, y, (self.width/2), (self.heigth/2))
         self.rect.x = -1452
         self.rect.y = y
-        fazbear = [f for f in os.listdir(FazbearPizzeriaWalking) if f.lower().endswith(('.png', '.jpg', '.jpeg', '.gif', '.bmp'))]
-        self.image = pygame.image.load((os.path.join(FazbearPizzeriaWalking,fazbear[0]) if FPS%2==0 else (os.path.join(FazbearPizzeriaWalking,fazbear[1]))))
+        self.fazbear = [f for f in os.listdir(FazbearPizzeriaWalking) if f.lower().endswith(('.png', '.jpg', '.jpeg', '.gif', '.bmp'))]
+        self.fazbear_index = 0
+        self.image = pygame.image.load(os.path.join(FazbearPizzeriaWalking,self.fazbear[0]))
         self.direccion = 0
     
-    def update(self, surface):
-        pygame.draw.rect
-        if (self.rect.x < (WIDTH+1452) and self.direccion == 0):
+    def update(self):
+        if (self.direccion == 0):
             self.rect.x += 10
-        elif (self.rect.x >= (WIDTH+1452)):
-            self.image = pygame.transform.flip(1,0)
-            self.direccion = 1
-        elif (self.rect.x > (-1452) and self.direccion == 1):
+        else:
             self.rect.x -= 10
-        elif (self.rect.x <= (-1452)):
-            self.image = pygame.transform.flip(0,0)
+
+        if (self.rect.x >= (WIDTH+self.width)):
+            self.direccion = 1
+        
+        if (self.rect.x <= (-(self.width*2))):
             self.direccion = 0
 
-
+        if (self.fazbear_index == 0):
+            self.image = pygame.image.load(os.path.join(FazbearPizzeriaWalking,self.fazbear[0]))
+            self.image = pygame.transform.flip(self.image,0,0) if self.direccion == 0 else pygame.transform.flip(self.image,1,0)
+            self.fazbear_index += 1
+        elif(self.fazbear_index == 6):
+            self.image = pygame.image.load(os.path.join(FazbearPizzeriaWalking,self.fazbear[1]))
+            self.image = pygame.transform.flip(self.image,0,0) if self.direccion == 0 else pygame.transform.flip(self.image,1,0)
+            self.fazbear_index += 1
+        if(self.fazbear_index == 12):
+            self.fazbear_index = 0
+        else:
+            self.fazbear_index += 1
+            
+    def draw(self, surface):
+        surface.blit(self.image, self.rect)
 
 # ================================ #
 # Funció per reinicialitzar el Joc #
@@ -242,12 +272,12 @@ def inici():
     menu = pygame.transform.scale(menu, (WIDTH, HEIGHT))
     screen.blit(menu,(0,0))
     button_font = pygame.font.SysFont("Arial", 36)
-    Play_button = Button((WIDTH / 2 - 100), (HEIGHT / 2 - 100), 200, 50, "Jugar", button_font, BLUE, RED)
-    Quit_button = Button((WIDTH / 2 - 100), (HEIGHT / 2 + 150), 200, 50, "Salir", button_font, BLUE, RED)
+    Play_button = Button((WIDTH / 2 - 650), (HEIGHT / 2 - 150), 300, 75, "Jugar", button_font, ((120),(120),(120)), RED)
+    Quit_button = Button((WIDTH / 2 - 650), (HEIGHT / 2), 300, 75, "Salir", button_font, ((120),(120),(120)), RED)
     waiting = True
     while waiting:
         clock.tick(FPS)
-        draw_text(screen, "Python VHS Game", font, WHITE,(WIDTH / 2 - 100),(HEIGHT / 2 - 50))
+        draw_text(screen, "Python VHS Game", TittleFont, WHITE,(WIDTH / 2 - 700),(HEIGHT / 2 - 400))
         mouse_pos = pygame.mouse.get_pos()
         mouse_pressed = [pygame.mouse.get_pressed()]
 
@@ -296,7 +326,9 @@ def game_loop():
                 pygame.quit()
                 sys.exit()
             elif event.type == ADD_OBSTACLE:
-                obstacle = Obstacle()
+                enemy_class = random.choice([Enemigo_Tipo_1, Enemigo_Tipo_2])  # Elegir la clase, no una instancia
+                obstacle = enemy_class()  # Crear una nueva instancia
+                print("Enemigo generado:", type(obstacle).__name__)
                 all_sprites.add(obstacle)
                 obstacles.add(obstacle)
             elif event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
@@ -382,10 +414,10 @@ def show_pause_menu():
     pygame.mixer.music.set_volume(1.0)
 
     button_font = pygame.font.SysFont("Arial", 36)
-    resume_button = Button((WIDTH / 2 - 100), (HEIGHT / 2 - 50), 200, 50, "Reanudar", button_font, BLUE, RED)
-    quit_button = Button((WIDTH / 2 - 100), (HEIGHT / 2 + 50), 200, 50, "Salir", button_font, BLUE, RED)
-    fazbear=Fazbear(800)
-    all_sprites.add(fazbear)
+    resume_button = Button((WIDTH / 2 - 100), (HEIGHT / 2 - 50), 200, 50, "Reanudar", button_font, ((120),(120),(120)), RED)
+    quit_button = Button((WIDTH / 2 - 100), (HEIGHT / 2 + 50), 200, 50, "Salir", button_font, ((120),(120),(120)), RED)
+    fazbear=Fazbear(400, 300)
+    
 
     
     while paused:
@@ -396,6 +428,7 @@ def show_pause_menu():
 
         resume_button.check_hover(mouse_pos)
         quit_button.check_hover(mouse_pos)
+        fazbear.update()
         
         if frames:  # Solo intenta cargar el frame si hay frames disponibles
             # Cargar el frame actual
@@ -428,7 +461,7 @@ def show_pause_menu():
 
         resume_button.draw(screen)
         quit_button.draw(screen)
-        fazbear.update(screen)
+        fazbear.draw(screen)
         
         pygame.display.flip()
 
