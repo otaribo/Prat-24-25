@@ -29,7 +29,7 @@ ruta_CharacterSprites = r"C:\\Github\\Prat-24-25\\Python\\Python orientat a obje
 player_sprite_path = os.path.join(ruta_CharacterSprites,"player.png")
 player_sprite = Image.open(player_sprite_path)
  
-disparo_sprite = os.path.join(ruta_CharacterSprites,"disparo.png")
+disparo_sprite = os.path.join(ruta_CharacterSprites,"Knife.png")
  
 # Wallpapers
 
@@ -129,15 +129,15 @@ class Enemigo(pygame.sprite.Sprite):
         self.rect.x = (WIDTH + self.photo_width + 15)
         self.rect.y = random.randint(0 + self.photo_height, HEIGHT - self.photo_height)
         self.speed = random.randint(3 + difficulty_level, 7 + difficulty_level)
+        self.mask = pygame.mask.from_surface(self.image)
 
     def update(self):
-        """Actualitza la posició de l'obstacle movent-lo cap a l'esquerra.
-           Quan surt completament de la pantalla, s'incrementa la puntuació i s'elimina."""
         global score
         self.rect.x -= self.speed
         if self.rect.right < 0:
             score += 1
             self.kill()
+
 class Enemigo_Tipo_1(Enemigo):
     def __init__(self):
         super().__init__()
@@ -145,6 +145,23 @@ class Enemigo_Tipo_1(Enemigo):
         path = os.path.join(enemigo,"other.png")
         self.image = pygame.image.load(path)
         self.image = pygame.transform.scale(self.image, (((self.size/self.photo_width*500), (self.size/self.photo_height*500))))
+        self.mask = pygame.mask.from_surface(self.image)
+        self.speed = 10
+        self.speed_y = 2
+    
+    def update(self):
+        global score
+
+        self.rect.x -= self.speed
+
+        if player.rect.y > self.rect.y:
+            self.rect.y += self.speed_y
+        if player.rect.y < self.rect.y: 
+            self.rect.y -= self.speed_y
+
+        if self.rect.right < 0:
+            score += 1
+            self.kill()
         
 class Enemigo_Tipo_2(Enemigo):
     def __init__(self):
@@ -153,20 +170,45 @@ class Enemigo_Tipo_2(Enemigo):
         path = os.path.join(enemigo,"Donkey.png")
         self.image = pygame.image.load(path)
         self.image = pygame.transform.scale(self.image, (((self.size/self.photo_width*500), (self.size/self.photo_height*500))))
+        self.mask = pygame.mask.from_surface(self.image)
 
-
+class Enemigo_Garfield(Enemigo):
+    def __init__(self):
+        super().__init__()
+        self.size = 70
+        self.path = os.path.join(enemigo,"Garfield_Cursed")
+        self.frames =[f for f in os.listdir(self.path) if f.lower().endswith(('.png', '.jpg', '.jpeg', '.gif', '.bmp'))]
+        self.Garfield_Frame_Index = 0
+        self.Garfield_Frame_Index_Max = len(self.frames)
+        self.image = pygame.image.load(os.path.join(self.path, self.frames[0]))
+        self.image = pygame.transform.scale(self.image, (((self.size/self.photo_width*500), (self.size/self.photo_height*500))))
+        self.speed = 3
+        
+    def update(self):
+        global score
+        self.image = pygame.image.load(os.path.join(self.path, self.frames[self.Garfield_Frame_Index]))
+        self.image = pygame.transform.flip(self.image,1,0)
+        self.mask = pygame.mask.from_surface(self.image)
+        if(FPS%2==0):
+            self.Garfield_Frame_Index += 1
+        if (self.Garfield_Frame_Index >= self.Garfield_Frame_Index_Max):
+            self.Garfield_Frame_Index = 0
+        self.rect.x -= self.speed
+        if self.rect.right < 0:
+            score += 1
+            self.kill()
 
 class Disparo(pygame.sprite.Sprite):
     def __init__(self,x,y):
         super().__init__()
         self.image = pygame.image.load(disparo_sprite)
         self.image = pygame.transform.scale(self.image,((160/2),(160/2)))
-        self.image = pygame.transform.rotate(self.image,-45)
+        self.image = pygame.transform.rotate(self.image,-15)
         self.rect = self.image.get_rect()
         self.rect.y = y
         self.rect.x = x
         self.speed = 10
-
+        
     def update(self):
             self.rect.x += self.speed
             if self.rect.x >= WIDTH:
@@ -314,7 +356,7 @@ def game_loop():
     pygame.mixer.music.play(-1)
     pygame.mixer.music.set_volume(0.2)
     """Executa el bucle principal de la partida."""
-    global difficulty_level, last_difficulty_update_time, spawn_interval, lives, running
+    global difficulty_level, last_difficulty_update_time, spawn_interval, lives, running, score
     menu = pygame.image.load(juegoWalpaper)
     menu = pygame.transform.scale(menu, (WIDTH, HEIGHT))
     game_state = "playing"
@@ -326,7 +368,7 @@ def game_loop():
                 pygame.quit()
                 sys.exit()
             elif event.type == ADD_OBSTACLE:
-                enemy_class = random.choice([Enemigo_Tipo_1, Enemigo_Tipo_2])  # Elegir la clase, no una instancia
+                enemy_class = random.choice([Enemigo_Tipo_1, Enemigo_Tipo_2, Enemigo_Garfield])  # Elegir la clase, no una instancia
                 obstacle = enemy_class()  # Crear una nueva instancia
                 print("Enemigo generado:", type(obstacle).__name__)
                 all_sprites.add(obstacle)
@@ -349,19 +391,22 @@ def game_loop():
         # Actualitzar els sprites
         all_sprites.update()
         # Comprovar col·lisions
-        if pygame.sprite.spritecollideany(player, obstacles):
-                if (current_time - player.UltimoGolpe) > 500: 
-                    player.vida -= 1
-                    if player.vida >= 1:
-                        player.UltimoGolpe = pygame.time.get_ticks()
-                    else:
-                        pygame.mixer.music.stop()
-                        game_state = "game_over"
-
-        collisions = pygame.sprite.groupcollide(disparos, obstacles, True, True)
-        if collisions:
-            obstacle.kill()
-            disparo.kill()
+        for disparo in disparos:
+            enemigos_colisionados = pygame.sprite.spritecollide(disparo, obstacles, False, pygame.sprite.collide_mask)
+            if enemigos_colisionados:
+                for enemigo in enemigos_colisionados:
+                    enemigo.kill()
+                    disparo.kill() 
+                    score += 1
+# Comprobar colisiones entre el jugador y los enemigos
+        if pygame.sprite.spritecollideany(player, obstacles, pygame.sprite.collide_mask):
+            if (current_time - player.UltimoGolpe) > 500: 
+                player.vida -= 1
+                if player.vida >= 1:
+                    player.UltimoGolpe = pygame.time.get_ticks()
+                else:
+                    pygame.mixer.music.stop()
+                    game_state = "game_over"
         
         # Dibuixar la escena
         screen.blit(menu,(0,0))
@@ -480,6 +525,5 @@ def draw_health_bar(surface, x, y, current_health, max_health):
 
     # Dibujar la barra de vida actual (relleno)
     pygame.draw.rect(surface, GREEN, (x, y, fill, bar_height))
-
-
+    
 inici()
