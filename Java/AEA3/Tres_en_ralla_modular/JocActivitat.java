@@ -1,36 +1,58 @@
-package Java.AEA3.Tres_en_ralla_modular;
+package Tres_en_ralla_modular;
 
 import java.util.Scanner;
 
 public class JocActivitat {
     private Tauler tauler = new Tauler();
-    private char jugadorActual;
     private boolean joc_Acabat;
     private Scanner scan = new Scanner(System.in);
+    private static int torn;
 
-    public void imprimir_tauler(){
-        tauler.imprimir_tauler();
+    public void Inici(){
+        torn = 0;
+        joc_Acabat = false;
+        while(!joc_Acabat){
+            if(tauler.victoria()==1||tauler.victoria()==2){
+                System.out.println("El jugador " + (tauler.victoria()==1?'x':'o') + " ha guanyat!");
+                tauler.imprimir_tauler();
+                joc_Acabat = true;
+            }
+            else{
+                System.out.println("Torn de " + (torn%2==0?tauler.Blau+"x"+tauler.Blanc:tauler.Vermell+"o"+tauler.Blanc));
+                tauler.imprimir_tauler();
+                eleccio_usuari(torn);
+                torn++;  
+            }
+        }
     }
     
-    public void eleccio_usuari(int torn){
+    public void eleccio_usuari(int torn) {
         boolean eleccio_valida = false;
-        char x = 'x';
-        char o = 'o';
-        do{
-            System.out.print("On vols colocar una ficha: ");
-            if(scan.hasNextInt()&&(scan.nextInt()>=1&&scan.nextInt()<=9)){
-                int eleccio = scan.nextInt();
-                boolean disponibilitat = tauler.disponibilitat_lloc(mirar_eleccio(eleccio));
-                if(disponibilitat){
-                    tauler.cambiar_valor(mirar_eleccio(eleccio),torn%2==0||torn==0?x:o);
-                    eleccio_valida = true;
+        int eleccio = 0;
+        char jugador = (torn % 2 == 0) ? 'x' : 'o';
+    
+        while (!eleccio_valida) {
+            System.out.print("On vols colocar una ficha (1-9): ");
+            
+            if (scan.hasNextInt()) {
+                eleccio = scan.nextInt();
+                
+                if (eleccio >= 1 && eleccio <= 9) {
+                    int[] posicio = mirar_eleccio(eleccio);
+                    if (tauler.disponibilitat_lloc(posicio)) {
+                        tauler.cambiar_valor(posicio, jugador);
+                        eleccio_valida = true;
+                    } else {
+                        System.out.println("Aquesta posició ja està ocupada. Tria una altra.");
+                    }
+                } else {
+                    System.out.println("Entrada no vàlida. Si us plau, introdueix un número entre 1 i 9.");
                 }
+            } else {
+                System.out.println("Entrada no vàlida. Si us plau, introdueix un número.");
+                scan.next();
             }
-            if(!eleccio_valida){scan.next();}
-        }while(!eleccio_valida);
-        
-        
-        
+        }
     }
 
     public static int[] mirar_eleccio(int eleccio){
