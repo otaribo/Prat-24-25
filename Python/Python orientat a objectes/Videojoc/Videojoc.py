@@ -146,13 +146,13 @@ class Enemigo_Tipo_1(Enemigo):
         self.image = pygame.image.load(path)
         self.image = pygame.transform.scale(self.image, (((self.size/self.photo_width*500), (self.size/self.photo_height*500))))
         self.mask = pygame.mask.from_surface(self.image)
-        self.speed = 10
+        self.speed_x = 10
         self.speed_y = 2
     
     def update(self):
         global score
 
-        self.rect.x -= self.speed
+        self.rect.x -= self.speed_x
 
         if player.rect.y > self.rect.y:
             self.rect.y += self.speed_y
