@@ -21,26 +21,28 @@ GREEN = (0,255,0)
 #============================================
 # Paths
 #============================================
+file_path = os.path.dirname(os.path.abspath(__file__))
+sprites_path = os.path.join(file_path,"sprites")
 # Enemigos
-enemigo = r"C:\\Github\\Prat-24-25\\Python\\Python orientat a objectes\\Videojoc\\sprites\\enemies"
+enemigo = os.path.join(sprites_path,"enemies")
 
 # Personaje
-ruta_CharacterSprites = r"C:\\Github\\Prat-24-25\\Python\\Python orientat a objectes\\Videojoc\\sprites\\character"
+ruta_CharacterSprites = os.path.join(sprites_path,"character")
 player_sprite_path = os.path.join(ruta_CharacterSprites,"player.png")
 player_sprite = Image.open(player_sprite_path)
  
 disparo_sprite = os.path.join(ruta_CharacterSprites,"Knife.png")
  
 # Wallpapers
-
-menuWallpaper = r"C:\\Github\\Prat-24-25\\Python\\Python orientat a objectes\\Videojoc\\Fondos\\analog-horror.png"
-juegoWalpaper = r"C:\\Github\\Prat-24-25\\Python\\Python orientat a objectes\\Videojoc\\Fondos\\Fondo_juego.webp"
-menuPausaWallpaper = r"C:\\Github\\Prat-24-25\\Python\\Python orientat a objectes\\Videojoc\\Fondos\\menu_animation"
-FazbearPizzeriaWalking = r"C:\\Github\\Prat-24-25\\Python\\Python orientat a objectes\\Videojoc\\Fondos\\fazbear_pizzeria_walking"
+fondos_path = os.path.join(file_path,"Fondos")
+menuWallpaper = os.path.join(fondos_path,"analog-horror.png")
+juegoWalpaper = os.path.join(fondos_path,"Fondo_juego.webp")
+menuPausaWallpaper = os.path.join(fondos_path,"menu_animation")
+FazbearPizzeriaWalking = os.path.join(fondos_path,"fazbear_pizzeria_walking")
 
 # Music
 
-AudioFiles = r"C:\\Github\\Prat-24-25\\Python\\Python orientat a objectes\\Videojoc\\Audio_Files"
+AudioFiles = os.path.join(file_path,"Audio_Files")
 PauseMenuSoundtrack = os.path.join(AudioFiles,"PauseMenu.mp3")
 GameSountrack = os.path.join(AudioFiles,"GameSoundtrack.mp3")
 StartMenuMusic = os.path.join(AudioFiles, "StartMenuMusic.mp3")
@@ -83,9 +85,9 @@ class Player(pygame.sprite.Sprite):
     def __init__(self):
         super().__init__()
         size = 40
-        photo_height, photo_width = player_sprite.size
+        self.player_height, self.player_width = player_sprite.size
         self.image = pygame.image.load(player_sprite_path)
-        self.image = pygame.transform.scale(self.image, ((size/photo_width*500), (size/photo_height*500)))
+        self.image = pygame.transform.scale(self.image, ((size/self.player_width*500), (size/self.player_height*500)))
         self.rect = self.image.get_rect()
         self.rect.center = (100, HEIGHT // 2)
         self.speed = 5
@@ -281,6 +283,17 @@ class Fazbear(pygame.sprite.Sprite):
     def draw(self, surface):
         surface.blit(self.image, self.rect)
 
+def draw_health_bar(surface, x, y, current_health, max_health):
+    """Dibuja una barra de vida en la pantalla."""
+    bar_width = 300  # Ancho de la barra de vida
+    bar_height = 35   # Alto de la barra de vida
+    fill = (current_health / max_health) * bar_width  # Longitud de la barra de vida actual
+
+    # Dibujar el fondo de la barra de vida (vacía)
+    pygame.draw.rect(surface, RED, (x, y, bar_width, bar_height))
+
+    # Dibujar la barra de vida actual (relleno)
+    pygame.draw.rect(surface, GREEN, (x, y, fill, bar_height))
 # ================================ #
 # Funció per reinicialitzar el Joc #
 # ================================ #
@@ -412,7 +425,7 @@ def game_loop():
         screen.blit(menu,(0,0))
         all_sprites.draw(screen)
 
-        draw_health_bar(screen, 10, 100, player.vida, 10)
+        draw_health_bar(screen, 210, 130, player.vida, 10)
 
         score_text = font.render("Puntuació: " + str(score), True, WHITE)
         difficulty_text = font.render("Dificultat: " + str(difficulty_level), True, WHITE)
@@ -510,20 +523,6 @@ def show_pause_menu():
         
         pygame.display.flip()
 
-# ==================================== #
-# Funcio per definir una barra de vida #
-# ==================================== #
 
-def draw_health_bar(surface, x, y, current_health, max_health):
-    """Dibuja una barra de vida en la pantalla."""
-    bar_width = 200  # Ancho de la barra de vida
-    bar_height = 20   # Alto de la barra de vida
-    fill = (current_health / max_health) * bar_width  # Longitud de la barra de vida actual
-
-    # Dibujar el fondo de la barra de vida (vacía)
-    pygame.draw.rect(surface, RED, (x, y, bar_width, bar_height))
-
-    # Dibujar la barra de vida actual (relleno)
-    pygame.draw.rect(surface, GREEN, (x, y, fill, bar_height))
     
 inici()
