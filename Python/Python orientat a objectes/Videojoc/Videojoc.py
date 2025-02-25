@@ -51,7 +51,7 @@ StartMenuMusic = os.path.join(AudioFiles, "StartMenuMusic.mp3")
 
 # Inicialitzar Pygame i la finestra
 pygame.init()
-screen = pygame.display.set_mode((WIDTH, HEIGHT))
+screen = pygame.display.set_mode((WIDTH, HEIGHT), pygame.RESIZABLE)
 pygame.display.set_caption("Joc python")
 clock = pygame.time.Clock()
 font = pygame.font.SysFont("Arial", 24)
