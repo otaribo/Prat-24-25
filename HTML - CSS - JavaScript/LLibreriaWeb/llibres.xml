@@ -1,0 +1,11 @@
+<!-- llibres.xml -->
+<llibres>
+  <llibre>
+    <titol>1984</titol>
+    <autor>George Orwell</autor>
+  </llibre>
+  <llibre>
+    <titol>El Petit Príncep</titol>
+    <autor>Antoine de Saint-Exupéry</autor>
+  </llibre>
+</llibres>
