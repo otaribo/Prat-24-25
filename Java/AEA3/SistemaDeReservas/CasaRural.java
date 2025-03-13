@@ -1,6 +1,7 @@
 package Java.AEA3.SistemaDeReservas;
 
 public class CasaRural extends Allotjament {
+    String Tipus = "Casa Rural";
     boolean Jardi;
     boolean Piscina;
     public CasaRural(String nom, int capacitat, boolean disponible, boolean jardi, boolean piscina){
@@ -27,6 +28,6 @@ public class CasaRural extends Allotjament {
 
     @Override
     public void MostrarInfo(){
-        System.out.println(getClass() + ": " + Nom + " Capacitat: " + getCapacitat() + " Jardi: " ());
+        System.out.println(Tipus + ": " + Nom + " |" +" Capacitat: " + getCapacitat() + " |" + " Jardi: " + (isJardi() ? "Sí":"No") + " |" + " Piscina: " + (isPiscina()? "Sí":"No"));
     }
 }
