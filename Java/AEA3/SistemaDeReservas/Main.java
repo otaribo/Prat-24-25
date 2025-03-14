@@ -6,13 +6,16 @@ public class Main {
     public static Scanner scan = new Scanner(System.in);
     public static ArrayList<Allotjament> AllotjamentsLliures = new ArrayList<Allotjament>(); 
     public static void main(String[] args) {
-        taulaAllotjaments();
-        mostrarAllotjaments(true);
-        reservarAllotjament();
-        mostrarAllotjaments(true);
+        boolean activitatActiva = true;
+        creacioAllotjaments();
+        do{
+            menu();
+        }while(activitatActiva);
     }
 
     public static void menu(){
+        System.out.print("\033[H\033[2J");
+        System.out.println("\n");
         boolean opcioValida = false;
         System.out.println(
             """     
@@ -27,13 +30,21 @@ public class Main {
                 int eleccio = scan.nextInt();
                 switch(eleccio){
                     case 1:
-                        mostrarAllotjaments(true);
+                        mostrarAllotjaments(true,true);
+                        opcioValida = true;
+                        break;
                     case 2:
-                        reservarAllotjament();
+                        reservaroAlliberarAllotjament(true);
+                        opcioValida = true;
+                        break;
                     case 3:
-
+                        reservaroAlliberarAllotjament(false);
+                        opcioValida = true;
+                        break;
                     case 4:
-
+                        opcioValida = true;
+                        System.exit(0);
+                        break;
                 }
             }
             catch(NumberFormatException ex){
@@ -42,14 +53,18 @@ public class Main {
         }while(!opcioValida);
     }
 
-    public static void taulaAllotjaments(){
+    public static void creacioAllotjaments(){
         CasaRural CasaRural1 = new CasaRural("Casa de camp", 6, true, false, true);
         Allotjaments.add(CasaRural1);
         CasaRural CasaRural2 = new CasaRural("Bungalows", 5, false, true, false);
         Allotjaments.add(CasaRural2);
+        CasaRural CasaRural3 = new CasaRural("Casa Muntanya", 7, true, true, false);
+        Allotjaments.add(CasaRural3);
+        CasaRural CasaRural4 = new CasaRural("Casa depoble", 3, true, true, false);
+        Allotjaments.add(CasaRural4);
     }
 
-    public static void mostrarAllotjaments(boolean disponible){
+    public static void mostrarAllotjaments(boolean disponible, boolean clear){
         AllotjamentsLliures.clear();
         System.out.println(disponible ? "Allotjaments disponibles: \n" : "Allotjaments Ocupats: \n");
         int NumeroAllotjament = 1;
@@ -61,21 +76,33 @@ public class Main {
                 NumeroAllotjament++;
             }
         }
+        if(clear){
+            pressEnterToContinue();
+        }
     }
-    public static void reservarAllotjament(){
+
+    public static void reservaroAlliberarAllotjament(boolean disponible){
         int eleccio;
-        System.out.println("Reservar:");
-        mostrarAllotjaments(true);
+        System.out.println("\n");
+        System.out.println(disponible?"Reservar:":"Alliberar:");
+        mostrarAllotjaments(disponible,false);
         boolean eleccioValida = false;
-        System.out.print("Selecciona una opcio: ");
         do{
             try{
+                
+                if (AllotjamentsLliures.size()==0){
+                    System.out.println("No hi han allotjaments per veure en aquest moment");
+                    pressEnterToContinue();
+                    break;
+                }
+                System.out.print("Selecciona una opcio: ");
                 eleccio = scan.nextInt();
                 if(eleccio <= AllotjamentsLliures.size()){
                     eleccio--;
                     AllotjamentsLliures.get(eleccio).cambiarDisponibilitat();
-                    System.out.println("S'ha cambiat la disponibilitat del allotjament " + AllotjamentsLliures.get(eleccio).getNom());
+                    System.out.println("\nS'ha cambiat la disponibilitat del allotjament " + AllotjamentsLliures.get(eleccio).getNom());
                     eleccioValida = true;
+                    pressEnterToContinue();
                 }
                 else{
                     System.out.print("Selecciona una opcio valida:");
@@ -84,5 +111,12 @@ public class Main {
                 System.out.print("Selecciona una opcio valida:");
             }
         }while(!eleccioValida);
+    }
+    public static void pressEnterToContinue(){ 
+        System.out.println("\nPrem Enter per continuar...");
+        try{
+            System.in.read();
+        }  
+        catch(Exception e){}  
     }
 }
