@@ -1,2 +1,2 @@
 # Prat-24-25
-Prat educacio 2024 - 2025
+Prat Educacio 2024 - 2025
