@@ -1,0 +1,26 @@
+body {
+    width: 100%;
+    height: 100%;
+}
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+/* Estilos para las celdas y bordes */
+th, td {
+    border: 1px solid black;
+    padding: 30px;
+    text-align: center;
+}
+
+/* Estilos para la cabecera */
+th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+}
+
+/* Estilo para filas alternas */
+tr:nth-child(even) {
+    background-color: #e0e0e0;
+}

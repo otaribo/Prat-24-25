@@ -3,9 +3,16 @@
   <llibre>
     <titol>1984</titol>
     <autor>George Orwell</autor>
+    <paginas>351</paginas>
   </llibre>
   <llibre>
     <titol>El Petit Príncep</titol>
     <autor>Antoine de Saint-Exupéry</autor>
+    <paginas>473</paginas>
+  </llibre>
+  <llibre>
+    <titol>Tu madre tiene una polla</titol>
+    <autor>Que ya la quisiera yo</autor>
+    <paginas>698</paginas>
   </llibre>
 </llibres>
