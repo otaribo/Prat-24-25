@@ -1,13 +1,18 @@
 package Java.AEA3.SistemaDeReservas;
 import java.util.Scanner;
+
+import Java.AEA3.SistemaDeReservas.Allotjaments.*;
+
 import java.util.ArrayList;
 public class Main {
-    public static ArrayList<Allotjament> Allotjaments = new ArrayList<Allotjament>();
+    
     public static Scanner scan = new Scanner(System.in);
     public static ArrayList<Allotjament> AllotjamentsLliures = new ArrayList<Allotjament>(); 
+    public static CreacioAllotjaments creacioApartaments = new CreacioAllotjaments();
+    public static Filtre filtre = new Filtre(0,false,false,false);
     public static void main(String[] args) {
         boolean activitatActiva = true;
-        creacioAllotjaments();
+        CreacioAllotjaments.creacioAllotjaments();
         do{
             menu();
         }while(activitatActiva);
@@ -15,6 +20,7 @@ public class Main {
 
     public static void menu(){
         System.out.print("\033[H\033[2J");
+        System.out.println("Filtre:\nPreu maxim: " + filtre.getPreuMax() +" | "+ "Cuina: " + (filtre.isCuina()==true?"Sí":"No") +" | "+ "Jardi: " + (filtre.isJardi()==true?"Sí":"No") +" | "+ "Piscina: " + (filtre.isPiscina()==true?"Sí":"No"));
         System.out.println("\n");
         boolean opcioValida = false;
         System.out.println(
@@ -22,8 +28,9 @@ public class Main {
             1. Mostrar Allotjaments Disponibles\n
             2. Reservar Allotjament\n
             3. Alliberar Allotjaments\n
-            4. Sortir
-            """
+            4. Filtre\n
+            5. Sortir
+            """ 
         );
         do{
             try{
@@ -42,6 +49,10 @@ public class Main {
                         opcioValida = true;
                         break;
                     case 4:
+                        filtre.mostrarFiltre();
+                        opcioValida = true;
+                        break;
+                    case 5:
                         opcioValida = true;
                         System.exit(0);
                         break;
@@ -51,37 +62,68 @@ public class Main {
                 System.out.println("Introdueix una opcio valida");
             }
         }while(!opcioValida);
+        menu();
     }
 
-    public static void creacioAllotjaments(){
-        CasaRural CasaRural1 = new CasaRural("Casa de camp", 6, true, false, true);
-        Allotjaments.add(CasaRural1);
-        CasaRural CasaRural2 = new CasaRural("Bungalows", 5, false, true, false);
-        Allotjaments.add(CasaRural2);
-        CasaRural CasaRural3 = new CasaRural("Casa Muntanya", 7, true, true, false);
-        Allotjaments.add(CasaRural3);
-        CasaRural CasaRural4 = new CasaRural("Casa depoble", 3, true, true, false);
-        Allotjaments.add(CasaRural4);
-    }
+    
 
     public static void mostrarAllotjaments(boolean disponible, boolean clear){
+        if(clear){System.out.print("\033[H\033[2J");}
         AllotjamentsLliures.clear();
-        System.out.println(disponible ? "Allotjaments disponibles: \n" : "Allotjaments Ocupats: \n");
+        System.out.println(disponible ? "\nAllotjaments disponibles: \n" : "\nAllotjaments Ocupats: \n");
         int NumeroAllotjament = 1;
-        for(Allotjament allotjament : Allotjaments){
-            if(disponible ? allotjament.isDisponible():!allotjament.isDisponible()){
-                System.out.print(NumeroAllotjament+". ");
-                allotjament.MostrarInfo();
-                AllotjamentsLliures.add(allotjament);
-                NumeroAllotjament++;
+        for(Allotjament allotjament : CreacioAllotjaments.Allotjaments){
+            if(disponible ? (allotjament.isDisponible()):!allotjament.isDisponible()){
+                if(disponible){
+                    if(allotjament.calculPreuNit()>filtre.getPreuMax()){
+                        continue;
+                    }
+                    if(filtre.isCuina()){
+                        if(allotjament instanceof Apartament){
+                            Apartament apartament = (Apartament) allotjament;
+                            if(!apartament.isCuina()){continue;}
+                        }
+                        else{
+                            continue;
+                        }
+                    }
+                    if(filtre.isJardi()){
+                        if(allotjament instanceof CasaRural){
+                            CasaRural casaRural = (CasaRural) allotjament;
+                            if(!casaRural.isJardi()){continue;}
+                        }
+                        else{
+                            continue;
+                        }
+                    }
+                    if(filtre.isPiscina()){
+                        if(allotjament instanceof CasaRural){
+                            CasaRural casaRural = (CasaRural) allotjament;
+                            if(!casaRural.isPiscina()){continue;}
+                        }
+                        else{
+                            continue;
+                        }
+                    }
+                    System.out.print(NumeroAllotjament+". ");
+                    allotjament.MostrarInfo();
+                    AllotjamentsLliures.add(allotjament);
+                    NumeroAllotjament++;
+                }
+                else{
+                    System.out.print(NumeroAllotjament+". ");
+                    allotjament.MostrarInfo();
+                    AllotjamentsLliures.add(allotjament);
+                    NumeroAllotjament++;
+                }
+                
             }
         }
-        if(clear){
-            pressEnterToContinue();
-        }
+        if(clear){pressEnterToContinue();}
     }
 
     public static void reservaroAlliberarAllotjament(boolean disponible){
+        System.out.print("\033[H\033[2J");
         int eleccio;
         System.out.println("\n");
         System.out.println(disponible?"Reservar:":"Alliberar:");
