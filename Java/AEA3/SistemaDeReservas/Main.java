@@ -7,7 +7,7 @@ import java.util.ArrayList;
 public class Main {
     
     public static Scanner scan = new Scanner(System.in);
-    public static ArrayList<Allotjament> AllotjamentsLliures = new ArrayList<Allotjament>(); 
+    public static ArrayList<Allotjament> AllotjamentsLliures = new ArrayList<Allotjament>();
     public static CreacioAllotjaments creacioApartaments = new CreacioAllotjaments();
     public static Filtre filtre = new Filtre(0,false,false,false);
     public static void main(String[] args) {
