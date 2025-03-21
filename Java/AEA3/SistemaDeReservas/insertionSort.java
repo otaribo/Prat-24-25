@@ -3,8 +3,8 @@ import java.util.ArrayList;
 
 import Java.AEA3.SistemaDeReservas.Allotjaments.Allotjament;
 
-public class iterativeSort {
-    public void insertionSort(ArrayList<Allotjament> lista, boolean orden) {
+public class insertionSort {
+    public void InsertionSort(ArrayList<Allotjament> lista, boolean orden) {
         for (int i = 1; i < lista.size(); i++) {
             Allotjament temp = lista.get(i);
             int j = i - 1;

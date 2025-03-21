@@ -4,15 +4,19 @@ import java.util.Scanner;
 import Java.AEA3.SistemaDeReservas.Allotjaments.*;
 
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 public class Main {
     public static Scanner scan = new Scanner(System.in);
     public static ArrayList<Allotjament> AllotjamentsLliures = new ArrayList<Allotjament>();
     public static CreacioAllotjaments creacioApartaments = new CreacioAllotjaments();
-    public static iterativeSort IS = new iterativeSort();
+    public static insertionSort IS = new insertionSort();
     public static Filtre filtre = new Filtre(800,false,false,false,true);
     public static void main(String[] args) {
+        System.out.println("\033[H\033[2J");
         boolean activitatActiva = true;
+        Allotjament.setFiltre(filtre);
         CreacioAllotjaments.creacioAllotjaments();
+        insercioDadesUsuari();
         do{
             menu();
         }while(activitatActiva);
@@ -20,7 +24,7 @@ public class Main {
 
     public static void menu(){
         System.out.print("\033[H\033[2J");
-        System.out.println("Filtre:\nPreu maxim: " + filtre.getPreuMax() +" | "+ "Cuina: " + (filtre.isCuina()==true?"Sí":"No") +" | "+ "Jardi: " + (filtre.isJardi()==true?"Sí":"No") +" | "+ "Piscina: " + (filtre.isPiscina()==true?"Sí":"No"));
+        System.out.println("Filtre:\nPreu maxim: " + filtre.getPreuMax() +" | "+ "Cuina: " + (filtre.isCuina()==true?"Sí":"No") +" | "+ "Jardi: " + (filtre.isJardi()==true?"Sí":"No") +" | "+ "Piscina: " + (filtre.isPiscina()==true?"Sí":"No") + " | " + "Numero Persones: " + filtre.getNumeroPersones() + " | " + "Numero Nits: " + filtre.getNumeroNits());
         System.out.println("\n");
         boolean opcioValida = false;
         System.out.println(
@@ -64,9 +68,6 @@ public class Main {
         }while(!opcioValida);
         menu();
     }
-
-    
-
     public static void revisarAllotjaments(boolean disponible, boolean clear){
         if(clear){System.out.print("\033[H\033[2J");}
         AllotjamentsLliures.clear();
@@ -105,18 +106,19 @@ public class Main {
                             continue;
                         }
                     }
+                    if(allotjament.getCapacitat()<filtre.getNumeroPersones()){
+                       continue;
+                    }
                     AllotjamentsLliures.add(allotjament);   
                 }
                 else{
                     AllotjamentsLliures.add(allotjament);
                 }
-                
             }
         }
-        IS.insertionSort(AllotjamentsLliures, filtre.isOrden());
+        IS.InsertionSort(AllotjamentsLliures, filtre.isOrden());
         if(clear){pressEnterToContinue();}
     }
-
     public static void reservaroAlliberarAllotjament(boolean disponible){
         System.out.print("\033[H\033[2J");
         int eleccio;
@@ -126,7 +128,6 @@ public class Main {
         boolean eleccioValida = false;
         do{
             try{
-                
                 if (AllotjamentsLliures.size()==0){
                     System.out.println("No hi han allotjaments per veure en aquest moment");
                     pressEnterToContinue();
@@ -144,7 +145,7 @@ public class Main {
                 else{
                     System.out.print("Selecciona una opcio valida:");
                 }
-            }catch(IndexOutOfBoundsException exception){
+            }catch(IndexOutOfBoundsException | InputMismatchException ex){
                 System.out.print("Selecciona una opcio valida:");
             }
         }while(!eleccioValida);
@@ -156,5 +157,19 @@ public class Main {
         }  
         catch(Exception e){}  
     }
-    
+
+    public static void insercioDadesUsuari(){
+        System.out.print("Introdueix el numero de persones que asisteixen: ");
+        filtre.setNumeroPersones(inInt());
+        System.out.print("Introdueix el numero de nits: ");
+        filtre.setNumeroNits(inInt());
+    }
+
+    public static int inInt(){
+        while (!scan.hasNextInt()) {
+            System.out.println("Entrada no válida. Introduce un valor válido:");
+            scan.next(); 
+        }
+        return scan.nextInt();
+    }
 }

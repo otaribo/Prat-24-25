@@ -12,6 +12,7 @@ public class Apartament extends Allotjament {
         this.preuNit = calculPreuNit();
         this.PreuBase = 100;
         this.Tipus = "Apartament";
+
     }
     
     public boolean isCuina() {
@@ -39,6 +40,6 @@ public class Apartament extends Allotjament {
     }
 
     public double calculPreuNit(){
-        return PreuBase+(10*Habitacions);
+        return ((getPreuBase()+(10*getHabitacions()))*Filtre.getNumeroNits());
     }
 }

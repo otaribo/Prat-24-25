@@ -10,6 +10,9 @@ public class Filtre {
     boolean Piscina;
     boolean Orden;
     double PreuMax;
+    int NumeroNits;
+    int NumeroPersones;
+    
     public Filtre(double preuMax, boolean cuina, boolean jardi, boolean piscina, boolean orden){
         this.PreuMax=preuMax;
         this.Cuina=cuina;
@@ -104,4 +107,20 @@ public class Filtre {
             }
         }while(!sortir);
     }
+
+    public int getNumeroNits() {
+        return NumeroNits<=0?1:NumeroNits;
+    }
+    
+    public void setNumeroNits(int numeroNits) {
+        NumeroNits = numeroNits;
+    }
+    
+    public int getNumeroPersones() {
+        return NumeroPersones;
+    }
+    
+    public void setNumeroPersones(int numeroPersones) {
+        NumeroPersones = numeroPersones;
+}
 }

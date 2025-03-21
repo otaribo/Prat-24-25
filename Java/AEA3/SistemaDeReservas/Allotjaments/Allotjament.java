@@ -1,6 +1,9 @@
 package Java.AEA3.SistemaDeReservas.Allotjaments;
 
+import Java.AEA3.SistemaDeReservas.Filtre;
+
 public class Allotjament {
+    static Filtre Filtre;
     String Tipus;
     String Nom;
     int Capacitat;
@@ -52,6 +55,23 @@ public class Allotjament {
             setDisponible(true);
         }
     }
-    public void MostrarInfo(){}
-    public double calculPreuNit(){return 0;}
+    public void MostrarInfo(){
+
+    }
+    public double calculPreuNit(){
+        return 0;
+    }
+    public static void setFiltre(Filtre filtre) {
+        Filtre = filtre;
+    }
+    public void setPreuNit(double preuNit) {
+        this.preuNit = preuNit;
+    }
+    public static void setFilter(Filtre filtre){
+        Filtre = filtre;
+    }
+
+    public Filtre getFiltre(){
+        return Filtre;
+    }
 }

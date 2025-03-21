@@ -1,5 +1,6 @@
 package Java.AEA3.SistemaDeReservas.Allotjaments;
 
+
 public class CasaRural extends Allotjament {
     boolean Jardi;
     boolean Piscina;
@@ -10,6 +11,7 @@ public class CasaRural extends Allotjament {
         this.preuNit = calculPreuNit();
         this.PreuBase = 150;
         this.Tipus = "Casa Rural";
+        
     }
     public String getTipus() {
         return Tipus;
@@ -38,10 +40,10 @@ public class CasaRural extends Allotjament {
 
     public double calculPreuNit(){
         if(isPiscina()){
-            return getPreuBase() + 50;
+            return ((getPreuBase() + 50)*Filtre.getNumeroNits());
         }
         else{
-            return getPreuBase();
+            return (getPreuBase()*Filtre.getNumeroNits());
         }
     }
 }

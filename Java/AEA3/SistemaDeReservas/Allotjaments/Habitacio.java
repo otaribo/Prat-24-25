@@ -8,6 +8,7 @@ public class Habitacio extends Allotjament {
         this.Llits = llits;
         this.PreuBase = 50;
         this.Tipus = "Habitacio";
+    
     }
     public int getLlits() {
         return Llits;
@@ -21,6 +22,6 @@ public class Habitacio extends Allotjament {
     }
 
     public double calculPreuNit(){
-            return getPreuBase() + (getLlits()>3?20*(getLlits()-3):0);
+            return ((getPreuBase() + (getLlits()>3?20*(getLlits()-3):0))*Filtre.getNumeroNits());
     }
 }
