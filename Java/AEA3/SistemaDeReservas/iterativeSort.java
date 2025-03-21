@@ -1,32 +1,29 @@
 package Java.AEA3.SistemaDeReservas;
 import java.util.ArrayList;
 
-import AEA3.Allotjament.Allotjament;
+import Java.AEA3.SistemaDeReservas.Allotjaments.Allotjament;
 
 public class iterativeSort {
-    public void main(String[] args){
-        int[] lista = new int[]{3,5,6,8,1,2,0,-3,6};
-        for(int i = 0; i < lista.length;i++){
-            int temp = lista[i];
-            int j = i;
-            while((j>0)&&(temp<lista[j-1])){
-                lista[j] = lista[j-1];
+    public void insertionSort(ArrayList<Allotjament> lista, boolean orden) {
+        for (int i = 1; i < lista.size(); i++) {
+            Allotjament temp = lista.get(i);
+            int j = i - 1;
+
+            while (j >= 0 && (orden==true?lista.get(j).calculPreuNit() >= temp.calculPreuNit():lista.get(j).calculPreuNit() <= temp.calculPreuNit())) {
+                lista.set(j + 1, lista.get(j));
                 j--;
             }
-            lista[j] = temp;
+            lista.set(j + 1, temp);
         }
-        print(lista);  
-    } 
-    public void print(int[] lista){
-        for(int i = 0;i<lista.length;i++){
-            System.out.println(lista[i] + ", ");
-        }
+        print(lista);
     }
-
-    public void iterativeSortAllotjaments(ArrayList<Allotjament> lista){
-        for(int i = 0;i<lista.size();i++){
-            Allotjament temp = lista.get(i);
+    
+    public void print(ArrayList<Allotjament> lista){
+        int numeroAllotjament = 1;
+        for(Allotjament allotjament : lista){
+            System.out.print(numeroAllotjament + ". ");
+            allotjament.MostrarInfo();
+            numeroAllotjament++;
         }
     }
 }
-

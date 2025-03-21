@@ -8,14 +8,24 @@ public class Filtre {
     boolean Cuina;
     boolean Jardi;
     boolean Piscina;
+    boolean Orden;
     double PreuMax;
-    public Filtre(double preuMax, boolean cuina, boolean jardi, boolean piscina){
+    public Filtre(double preuMax, boolean cuina, boolean jardi, boolean piscina, boolean orden){
         this.PreuMax=preuMax;
         this.Cuina=cuina;
         this.Jardi=jardi;
         this.Piscina=piscina;
+        this.Orden=orden;
     }
     
+    public boolean isOrden() {
+        return Orden;
+    }
+
+    public void setOrden(boolean orden) {
+        Orden = orden;
+    }
+
     public boolean isCuina() {
         return Cuina;
     }
@@ -52,7 +62,7 @@ public class Filtre {
         boolean sortir = false;
         do{
             System.out.print("\033[H\033[2J");
-            System.out.println("Filtre:\n\n1. Preu maxim: " + getPreuMax() + "\n2. Cuina: " + (isCuina()==true?"Sí":"No") + "\n3. Jardi: " + (isJardi()==true?"Sí":"No") + "\n4. Piscina: " + (isPiscina()==true?"Sí":"No") + "\n5. Tornar");
+            System.out.println("Filtre:\n\n1. Preu maxim: " + getPreuMax() + "\n2. Cuina: " + (isCuina()==true?"Sí":"No") + "\n3. Jardi: " + (isJardi()==true?"Sí":"No") + "\n4. Piscina: " + (isPiscina()==true?"Sí":"No") + "\n5. Orden: " + (isOrden()==true?"Asc":"Desc") + "\n6. Tornar");
             try{
                 int eleccio = scan.nextInt();
                 switch(eleccio){
@@ -82,6 +92,9 @@ public class Filtre {
                         setPiscina(isPiscina()==true?false:true);
                         break;
                     case 5:
+                        setOrden(isOrden()==true?false:true);
+                        break;
+                    case 6:
                         sortir = true;
                         break;
                 }

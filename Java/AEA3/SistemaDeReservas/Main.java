@@ -5,11 +5,11 @@ import Java.AEA3.SistemaDeReservas.Allotjaments.*;
 
 import java.util.ArrayList;
 public class Main {
-    
     public static Scanner scan = new Scanner(System.in);
     public static ArrayList<Allotjament> AllotjamentsLliures = new ArrayList<Allotjament>();
     public static CreacioAllotjaments creacioApartaments = new CreacioAllotjaments();
-    public static Filtre filtre = new Filtre(0,false,false,false);
+    public static iterativeSort IS = new iterativeSort();
+    public static Filtre filtre = new Filtre(800,false,false,false,true);
     public static void main(String[] args) {
         boolean activitatActiva = true;
         CreacioAllotjaments.creacioAllotjaments();
@@ -37,7 +37,7 @@ public class Main {
                 int eleccio = scan.nextInt();
                 switch(eleccio){
                     case 1:
-                        mostrarAllotjaments(true,true);
+                        revisarAllotjaments(true,true);
                         opcioValida = true;
                         break;
                     case 2:
@@ -67,11 +67,11 @@ public class Main {
 
     
 
-    public static void mostrarAllotjaments(boolean disponible, boolean clear){
+    public static void revisarAllotjaments(boolean disponible, boolean clear){
         if(clear){System.out.print("\033[H\033[2J");}
         AllotjamentsLliures.clear();
         System.out.println(disponible ? "\nAllotjaments disponibles: \n" : "\nAllotjaments Ocupats: \n");
-        int NumeroAllotjament = 1;
+
         for(Allotjament allotjament : CreacioAllotjaments.Allotjaments){
             if(disponible ? (allotjament.isDisponible()):!allotjament.isDisponible()){
                 if(disponible){
@@ -105,20 +105,15 @@ public class Main {
                             continue;
                         }
                     }
-                    System.out.print(NumeroAllotjament+". ");
-                    allotjament.MostrarInfo();
-                    AllotjamentsLliures.add(allotjament);
-                    NumeroAllotjament++;
+                    AllotjamentsLliures.add(allotjament);   
                 }
                 else{
-                    System.out.print(NumeroAllotjament+". ");
-                    allotjament.MostrarInfo();
                     AllotjamentsLliures.add(allotjament);
-                    NumeroAllotjament++;
                 }
                 
             }
         }
+        IS.insertionSort(AllotjamentsLliures, filtre.isOrden());
         if(clear){pressEnterToContinue();}
     }
 
@@ -127,7 +122,7 @@ public class Main {
         int eleccio;
         System.out.println("\n");
         System.out.println(disponible?"Reservar:":"Alliberar:");
-        mostrarAllotjaments(disponible,false);
+        revisarAllotjaments(disponible,false);
         boolean eleccioValida = false;
         do{
             try{
@@ -161,4 +156,5 @@ public class Main {
         }  
         catch(Exception e){}  
     }
+    
 }
