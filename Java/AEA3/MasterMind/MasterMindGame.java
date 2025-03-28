@@ -4,27 +4,31 @@ import java.util.Scanner;
 
 public class MasterMindGame {
     CodeGenerator CG = new CodeGenerator();
-    public final static char CORRECTE = '0';
-    public final static char MALA_POSICIO = 'X';
-    public final static char INCORRECTE = '-';
+    PlayerHuman PH = new PlayerHuman();
+    Scanner scan = new Scanner(System.in);
     public char[] CODE;
-    public String feedback;
+    public String feedback ="";
 
     public void main(String[] args) {
-        CG.generate(5);
-        CODE = CG.getCode();
-        feedback = "";
-
-        comprobarResposta("abeco");
-        System.out.println(feedback);
-
+        boolean continuar = false;
+        do{
+            CG.generate(3);
+            CODE = CG.getCode();
+            System.out.println(Arrays.toString(CODE));
+            while (!victoria()){
+                comprobarResposta(PH.Input(CODE));
+                System.out.println(feedback);
+            }
+            System.out.println("Molt be!!! Ho has encertat!!!");
+        }
+        while(continuar);
+        
     }
-
     public void comprobarResposta(String p){
-        char[] input = p.toCharArray();
-        for(int i = 0;i<input.length;i++){
-            if(conteLletra(CODE, input[i])){
-                feedback = (feedback != null?feedback + (input[i] == CODE[i]?'O':'X'):(input[i] == CODE[i]?"O":"X"));
+        feedback = "";
+        for(int i = 0;i<p.length();i++){
+            if(conteLletra(CODE, p.charAt(i))){
+                feedback = (feedback != null?feedback + (p.charAt(i) == CODE[i]?'O':'X'):(p.charAt(i) == CODE[i]?"O":"X"));
             }
             else{
                 feedback = (feedback != null?feedback + '-':"-");
@@ -38,5 +42,14 @@ public class MasterMindGame {
             }
         }
         return false;
+    }  
+    public boolean victoria(){
+        String correct = "O".repeat(CODE.length);
+        if(feedback.equals(correct)){
+            return true;
+        }
+        else{
+            return false;
+        }
     }
 }

@@ -1,6 +1,7 @@
 package Java.AEA3.MasterMind;
 
-import java.util.Random;
+import java.util.ArrayList;
+import java.util.Collections;
 
 public class CodeGenerator {
     char[] Code;
@@ -14,12 +15,17 @@ public class CodeGenerator {
     }
 
     public void generate(int Llarg){
-        Random r = new Random();
-        char[] code = new char[Llarg];
-        for(int i = 0; i<code.length;i++){
-            code[i] = (char)(r.nextInt(26) + 'a');
+        ArrayList<Character> chars = new ArrayList<>();
+        for (char c = 'a'; c <= 'z'; c++) {
+            chars.add(c);
         }
-        System.out.println("Code has been created");
+        Collections.shuffle(chars);
+
+        char[] code = new char[Llarg];
+        for (int i = 0; i < Llarg; i++) {
+            code[i] = chars.get(i);
+        }
+        
         setCode(code);
     }
 }
