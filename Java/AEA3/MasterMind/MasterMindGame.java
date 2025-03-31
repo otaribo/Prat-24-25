@@ -3,17 +3,18 @@ import java.util.Arrays;
 import java.util.Scanner;
 
 public class MasterMindGame {
-    CodeGenerator CG = new CodeGenerator();
-    PlayerHuman PH = new PlayerHuman();
+    private static CodeGenerator CG = new CodeGenerator();
+    private static PlayerHuman PH = new PlayerHuman();
     Scanner scan = new Scanner(System.in);
-    public char[] CODE;
-    public String feedback ="";
+    public static char[] CODE;
+    public static String feedback;
 
-    public void main(String[] args) {
+    public static void main(String[] args) {
         boolean continuar = true;
         while(continuar){
+            feedback = "";
             CG.generate(3);
-            CODE = cg.getCode();
+            CODE = CG.getCode();
             System.out.println(Arrays.toString(CODE));
             while (!victoria()){
                 comprobarResposta(PH.Input(CODE));
@@ -22,7 +23,7 @@ public class MasterMindGame {
             System.out.println("Molt be!!! Ho has encertat!!!");
         }
     }
-    public void comprobarResposta(String p){
+    public static void comprobarResposta(String p){
         feedback = "";
         for(int i = 0;i<p.length();i++){
             if(conteLletra(CODE, p.charAt(i))){
@@ -33,7 +34,7 @@ public class MasterMindGame {
             }
         }
     }
-    public boolean conteLletra(char[] code, char c){
+    public static boolean conteLletra(char[] code, char c){
         for(int i = 0; i<code.length;i++){
             if(code[i] == c){
                 return true;
@@ -41,7 +42,7 @@ public class MasterMindGame {
         }
         return false;
     }  
-    public boolean victoria(){
+    public static boolean victoria(){
         String correct = "O".repeat(CODE.length);
         if(feedback.equals(correct)){
             return true;
