@@ -10,10 +10,10 @@ public class MasterMindGame {
     public String feedback ="";
 
     public void main(String[] args) {
-        boolean continuar = false;
-        do{
+        boolean continuar = true;
+        while(continuar){
             CG.generate(3);
-            CODE = CG.getCode();
+            CODE = cg.getCode();
             System.out.println(Arrays.toString(CODE));
             while (!victoria()){
                 comprobarResposta(PH.Input(CODE));
@@ -21,8 +21,6 @@ public class MasterMindGame {
             }
             System.out.println("Molt be!!! Ho has encertat!!!");
         }
-        while(continuar);
-        
     }
     public void comprobarResposta(String p){
         feedback = "";
