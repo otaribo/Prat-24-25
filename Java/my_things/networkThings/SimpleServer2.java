@@ -21,16 +21,15 @@ public class SimpleServer2 {
     }
 
     private static void handleClient(Socket clientSocket) {
-        try (BufferedReader in = new BufferedReader(
-                new InputStreamReader(clientSocket.getInputStream(), StandardCharsets.UTF_8));
-             PrintWriter writer = new PrintWriter(
-                new OutputStreamWriter(clientSocket.getOutputStream(), StandardCharsets.UTF_8), true)) {
+        try {
+            BufferedReader getData = new BufferedReader(new InputStreamReader(clientSocket.getInputStream(), StandardCharsets.UTF_8));
+            PrintWriter sendData = new PrintWriter(new OutputStreamWriter(clientSocket.getOutputStream(), StandardCharsets.UTF_8), true);
 
-            String clientMessage = in.readLine();
+            String clientMessage = getData.readLine();
             System.out.println("Received from client: " + clientMessage);
 
             String response = generateResponse(clientMessage);
-            writer.println(response);
+            sendData.println(response);
             System.out.println("Sent response: " + response);
 
         } catch (IOException e) {
