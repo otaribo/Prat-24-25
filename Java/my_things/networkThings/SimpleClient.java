@@ -6,14 +6,13 @@ import java.util.Scanner;
 public class SimpleClient {
 
     // Configuración (modifica estos valores)
-    private static final String DESTINATION_IP = "192.168.2.35"; // IP del dispositivo destino
+    private static final String DESTINATION_IP = "127.0.0.1"; // IP del dispositivo destino
     private static final int DESTINATION_PORT = 12345;            // Puerto de destino
-    private static String MESSAGE_TO_SEND = "Hola dispositivo!"; // Mensaje a enviar
+    private static String MESSAGE_TO_SEND; // Mensaje a enviar
     private static Scanner scan = new Scanner(System.in);
 
     public static void main(String[] args) {
         try (Socket socket = new Socket(DESTINATION_IP, DESTINATION_PORT)) {
-            // Configurar flujos de salida
             OutputStream output = socket.getOutputStream();
             PrintWriter writer = new PrintWriter(output, true);
             System.out.print("Introdueix un missatge: ");
