@@ -9,9 +9,6 @@ public class MasterMindGame {
     public static char[] CODE;
     public static String feedback;
 
-        """
-                pruebas
-                """;
     public static void main(String[] args) {
         boolean continuar = true;
         while(continuar){
