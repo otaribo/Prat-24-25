@@ -1,0 +1,322 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Current File",
+            "request": "launch",
+            "mainClass": "${file}"
+        },
+        {
+            "type": "java",
+            "name": "scanner",
+            "request": "launch",
+            "mainClass": "Java.AEA1.Basics.Scanner.scanner",
+            "projectName": "Prat-24-25_f7c91d8a"
+        },
+        {
+            "type": "java",
+            "name": "variables",
+            "request": "launch",
+            "mainClass": "Java.AEA1.Basics.Variables.variables",
+            "projectName": "Prat-24-25_f7c91d8a"
+        },
+        {
+            "type": "java",
+            "name": "Descompte",
+            "request": "launch",
+            "mainClass": "Java.AEA1.IFS.Descompte.Descompte",
+            "projectName": "Prat-24-25_f7c91d8a"
+        },
+        {
+            "type": "java",
+            "name": "For",
+            "request": "launch",
+            "mainClass": "Java.AEA1.LOOPS.For.For",
+            "projectName": "Prat-24-25_f7c91d8a"
+        },
+        {
+            "type": "java",
+            "name": "EDATMINMAX",
+            "request": "launch",
+            "mainClass": "Java.AEA2.Arrays.EDATMINMAX.EDATMINMAX",
+            "projectName": "Prat-24-25_f7c91d8a"
+        },
+        {
+            "type": "java",
+            "name": "esbastica",
+            "request": "launch",
+            "mainClass": "Java.AEA2.Arrays.Esbastica.esbastica",
+            "projectName": "Prat-24-25_f7c91d8a"
+        },
+        {
+            "type": "java",
+            "name": "Parellsde0",
+            "request": "launch",
+            "mainClass": "Java.AEA2.Arrays.Parells_de_0.Parellsde0",
+            "projectName": "Prat-24-25_f7c91d8a"
+        },
+        {
+            "type": "java",
+            "name": "matriu_a_la_inversa",
+            "request": "launch",
+            "mainClass": "Java.AEA2.Arrays.Parells_de_0.matriu_a_la_inversa",
+            "projectName": "Prat-24-25_f7c91d8a"
+        },
+        {
+            "type": "java",
+            "name": "parellsde0v2",
+            "request": "launch",
+            "mainClass": "Java.AEA2.Arrays.Parells_de_0.parellsde0v2",
+            "projectName": "Prat-24-25_f7c91d8a"
+        },
+        {
+            "type": "java",
+            "name": "parellsde0v3",
+            "request": "launch",
+            "mainClass": "Java.AEA2.Arrays.Parells_de_0.parellsde0v3",
+            "projectName": "Prat-24-25_f7c91d8a"
+        },
+        {
+            "type": "java",
+            "name": "Trobar_max_min",
+            "request": "launch",
+            "mainClass": "Java.AEA2.Arrays.Trobar_max_min.Trobar_max_min",
+            "projectName": "Prat-24-25_f7c91d8a"
+        },
+        {
+            "type": "java",
+            "name": "cambiarcolumensfilesv3",
+            "request": "launch",
+            "mainClass": "Java.AEA2.Arrays.cambiarvalorscolumnesifiles.cambiarcolumensfilesv3",
+            "projectName": "Prat-24-25_f7c91d8a"
+        },
+        {
+            "type": "java",
+            "name": "cambiarvalorscolumnesifiles",
+            "request": "launch",
+            "mainClass": "Java.AEA2.Arrays.cambiarvalorscolumnesifiles.cambiarvalorscolumnesifiles",
+            "projectName": "Prat-24-25_f7c91d8a"
+        },
+        {
+            "type": "java",
+            "name": "valorcolumnesv2",
+            "request": "launch",
+            "mainClass": "Java.AEA2.Arrays.cambiarvalorscolumnesifiles.valorcolumnesv2",
+            "projectName": "Prat-24-25_f7c91d8a"
+        },
+        {
+            "type": "java",
+            "name": "Exercici_1",
+            "request": "launch",
+            "mainClass": "Java.AEA2.Exercicis_repàs_AEA2.Exercici_1.Exercici_1",
+            "projectName": "Prat-24-25_f7c91d8a"
+        },
+        {
+            "type": "java",
+            "name": "Exercici_2",
+            "request": "launch",
+            "mainClass": "Java.AEA2.Exercicis_repàs_AEA2.Exercici_2.Exercici_2",
+            "projectName": "Prat-24-25_f7c91d8a"
+        },
+        {
+            "type": "java",
+            "name": "Exercici_3",
+            "request": "launch",
+            "mainClass": "Java.AEA2.Exercicis_repàs_AEA2.Exercici_3.Exercici_3",
+            "projectName": "Prat-24-25_f7c91d8a"
+        },
+        {
+            "type": "java",
+            "name": "Exercici_4",
+            "request": "launch",
+            "mainClass": "Java.AEA2.Exercicis_repàs_AEA2.Exercici_4.Exercici_4",
+            "projectName": "Prat-24-25_f7c91d8a"
+        },
+        {
+            "type": "java",
+            "name": "Main",
+            "request": "launch",
+            "mainClass": "Java.AEA3.Allotjament.Main",
+            "projectName": "Prat-24-25_f7c91d8a"
+        },
+        {
+            "type": "java",
+            "name": "Main(1)",
+            "request": "launch",
+            "mainClass": "Java.AEA3.Contar_Digits.Main",
+            "projectName": "Prat-24-25_f7c91d8a"
+        },
+        {
+            "type": "java",
+            "name": "Elementmespetit",
+            "request": "launch",
+            "mainClass": "Java.AEA3.Element_mes_petit_de_un_array.Elementmespetit",
+            "projectName": "Prat-24-25_f7c91d8a"
+        },
+        {
+            "type": "java",
+            "name": "MainFiguraMillorada",
+            "request": "launch",
+            "mainClass": "Java.AEA3.FiguraMillorada.MainFiguraMillorada",
+            "projectName": "Prat-24-25_f7c91d8a"
+        },
+        {
+            "type": "java",
+            "name": "Main_Animal",
+            "request": "launch",
+            "mainClass": "Java.AEA3.HerenciaSimple.Main_Animal",
+            "projectName": "Prat-24-25_f7c91d8a"
+        },
+        {
+            "type": "java",
+            "name": "Main_Persona",
+            "request": "launch",
+            "mainClass": "Java.AEA3.HerenciaSimple.Main_Persona",
+            "projectName": "Prat-24-25_f7c91d8a"
+        },
+        {
+            "type": "java",
+            "name": "Main(2)",
+            "request": "launch",
+            "mainClass": "Java.AEA3.Invertir_Paraula.Main",
+            "projectName": "Prat-24-25_f7c91d8a"
+        },
+        {
+            "type": "java",
+            "name": "Llegir_enter_teclat",
+            "request": "launch",
+            "mainClass": "Java.AEA3.Llegir_enter_teclat.Llegir_enter_teclat",
+            "projectName": "Prat-24-25_f7c91d8a"
+        },
+        {
+            "type": "java",
+            "name": "MasterMindGame",
+            "request": "launch",
+            "mainClass": "Java.AEA3.MasterMind.MasterMindGame",
+            "projectName": "Prat-24-25_f7c91d8a"
+        },
+        {
+            "type": "java",
+            "name": "Main(3)",
+            "request": "launch",
+            "mainClass": "Java.AEA3.Potencia_Numero.Main",
+            "projectName": "Prat-24-25_f7c91d8a"
+        },
+        {
+            "type": "java",
+            "name": "Interfaz_grafica",
+            "request": "launch",
+            "mainClass": "Java.AEA3.Probes.Interfaz_grafica",
+            "projectName": "Prat-24-25_f7c91d8a"
+        },
+        {
+            "type": "java",
+            "name": "RegistreTemperatures_PART2",
+            "request": "launch",
+            "mainClass": "Java.AEA3.Registretemperatures.RegistreTemperatures_PART2",
+            "projectName": "Prat-24-25_f7c91d8a"
+        },
+        {
+            "type": "java",
+            "name": "InsertionSort",
+            "request": "launch",
+            "mainClass": "Java.AEA3.SistemaDeReservas.Allotjaments.InsertionSort",
+            "projectName": "Prat-24-25_f7c91d8a"
+        },
+        {
+            "type": "java",
+            "name": "Main(4)",
+            "request": "launch",
+            "mainClass": "Java.AEA3.SistemaDeReservas.Main",
+            "projectName": "Prat-24-25_f7c91d8a"
+        },
+        {
+            "type": "java",
+            "name": "Main(5)",
+            "request": "launch",
+            "mainClass": "Java.AEA3.Suma_Dels_Primers_N_Numeros_Enters.Main",
+            "projectName": "Prat-24-25_f7c91d8a"
+        },
+        {
+            "type": "java",
+            "name": "TicTacToeActivitat",
+            "request": "launch",
+            "mainClass": "Java.AEA3.Tres_en_ralla_modular.TicTacToeActivitat",
+            "projectName": "Prat-24-25_f7c91d8a"
+        },
+        {
+            "type": "java",
+            "name": "CalculArees",
+            "request": "launch",
+            "mainClass": "Java.AEA3.calcul_arees.CalculArees",
+            "projectName": "Prat-24-25_f7c91d8a"
+        },
+        {
+            "type": "java",
+            "name": "creacioclases1",
+            "request": "launch",
+            "mainClass": "Java.AEA3.clases.creacioclases1",
+            "projectName": "Prat-24-25_f7c91d8a"
+        },
+        {
+            "type": "java",
+            "name": "estrellasguionesnumeros",
+            "request": "launch",
+            "mainClass": "Java.AEA3.estrellasguionesnumeros.estrellasguionesnumeros",
+            "projectName": "Prat-24-25_f7c91d8a"
+        },
+        {
+            "type": "java",
+            "name": "InsertionSort(1)",
+            "request": "launch",
+            "mainClass": "Java.my_things.InsertionSort",
+            "projectName": "Prat-24-25_f7c91d8a"
+        },
+        {
+            "type": "java",
+            "name": "NetworkScanner",
+            "request": "launch",
+            "mainClass": "Java.my_things.networkThings.NetworkScanner",
+            "projectName": "Prat-24-25_f7c91d8a"
+        },
+        {
+            "type": "java",
+            "name": "SimpleClient",
+            "request": "launch",
+            "mainClass": "Java.my_things.networkThings.SimpleClient",
+            "projectName": "Prat-24-25_f7c91d8a"
+        },
+        {
+            "type": "java",
+            "name": "SimpleClient2",
+            "request": "launch",
+            "mainClass": "Java.my_things.networkThings.SimpleClient2",
+            "projectName": "Prat-24-25_f7c91d8a"
+        },
+        {
+            "type": "java",
+            "name": "SimpleServer",
+            "request": "launch",
+            "mainClass": "Java.my_things.networkThings.SimpleServer",
+            "projectName": "Prat-24-25_f7c91d8a"
+        },
+        {
+            "type": "java",
+            "name": "SimpleServer2",
+            "request": "launch",
+            "mainClass": "Java.my_things.networkThings.SimpleServer2",
+            "projectName": "Prat-24-25_f7c91d8a"
+        },
+        {
+            "type": "java",
+            "name": "SimpleServer3",
+            "request": "launch",
+            "mainClass": "Java.my_things.networkThings.SimpleServer3",
+            "projectName": "Prat-24-25_f7c91d8a"
+        }
+    ]
+}
