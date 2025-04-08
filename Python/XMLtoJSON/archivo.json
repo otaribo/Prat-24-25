@@ -1,0 +1,12 @@
+[
+    {
+        "nombre": "Ana Martínez",
+        "edad": "21",
+        "curso": "DAW"
+    },
+    {
+        "nombre": "Carlos Gómez",
+        "edad": "22",
+        "curso": "DAM"
+    }
+]
