@@ -8,7 +8,7 @@ public class main {
         String InputFilePath = "C:\\Github\\Prat-24-25\\Java\\AEA4\\ContadorParaules\\input.txt";
         String OutputFilePath = "C:\\Github\\Prat-24-25\\Java\\AEA4\\ContadorParaules\\output.txt";
         
-        int comptadorParaules = 0;
+        int numeroParaules = 0;
         BufferedReader lector = null;
         FileWriter writer = null;
         
@@ -27,14 +27,14 @@ public class main {
             while ((linia = lector.readLine()) != null) {
                 // Dividim la linea en paraules en base de els espais en blancs que trobe
                 String[] paraules = linia.split("\\s+");
-                comptadorParaules += paraules.length;
+                numeroParaules += paraules.length;
             }
             
             // Escribim el numero de paraules al arxiu 
             writer = new FileWriter(OutputFilePath, false);
-            writer.write("Nombre total de paraules: " + comptadorParaules);
+            writer.write("Nombre total de paraules: " + numeroParaules);
             
-            System.out.println("El arxiu té " + comptadorParaules + " paraules.");
+            System.out.println("El arxiu té " + numeroParaules + " paraules.");
             
         } catch (IOException e) {
             System.out.println("Error: " + e.getMessage());
