@@ -3,34 +3,29 @@ package Java.AEA4.InvertirParaules;
 import java.io.*;
 
 public class main {
-    public static void Main(String[] args) {
-        String InputFilePath = "C:\\Github\\Prat-24-25\\Java\\AEA4\\InvertirParaules\\input.txt";
-        String OutputFilePath = "C:\\Github\\Prat-24-25\\Java\\AEA4\\InvertirParaules\\output.txt";
+    public static void main(String[] args) {
+        String InputFilePath = "C:\\Github\\Prat-24-25\\Prat-24-25-1\\Java\\AEA4\\InvertirParaules\\input.txt";
+        String OutputFilePath = "C:\\Github\\Prat-24-25\\Prat-24-25-1\\Java\\AEA4\\InvertirParaules\\output.txt";
         
-        String reverse = "";
         BufferedReader lector = null;
         FileWriter writer = null;
         
         try {
-            File InputFile = new File(InputFilePath);
-            if (!InputFile.exists()) {
-                System.out.println("L'arxiu " + InputFilePath + " no s'ha trobat.");
-                return;
-            }
-        
             lector = new BufferedReader(new FileReader(InputFilePath));
-            String caracter;
+            writer = new FileWriter(OutputFilePath);
+
+            String linia;
             
-            while ((caracter = lector.readLine()) != null) {
-                for (char i:caracter.toCharArray()) {
-                    reverse = i + reverse;
+            // Llegim cada línia del fitxer d'entrada
+            while ((linia = lector.readLine()) != null) {
+                char[] arrayLinea = linia.toCharArray();
+                for(int i = 0; i<arrayLinea.length;i++){
+                    writer.write(arrayLinea[arrayLinea.length-1-i]);
                 }
+                writer.write(System.lineSeparator());
             }
             
-            writer = new FileWriter(OutputFilePath, false);
-            writer.write("Text Final: " + reverse);
-            
-            System.out.println("Resultat:\n" + reverse);
+            System.out.println("Fitxer processat correctament. Resultat guardat a " + OutputFilePath);
             
         } catch (IOException e) {
             System.out.println("Error: " + e.getMessage());
