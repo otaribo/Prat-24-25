@@ -4,8 +4,20 @@ import java.io.*;
 
 public class main {
     public static void main(String[] args) {
-        String InputFilePath = "C:\\Github\\Prat-24-25\\Prat-24-25-1\\Java\\AEA4\\InvertirParaules\\input.txt";
-        String OutputFilePath = "C:\\Github\\Prat-24-25\\Prat-24-25-1\\Java\\AEA4\\InvertirParaules\\output.txt";
+        File path = null;
+        try{
+            path = new File(main.class.getProtectionDomain().getCodeSource().getLocation().toURI());
+            
+            System.out.println("Path: " + path.getParent());
+        }
+        catch (Exception e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+
+        String abspath = path.getParent().replace(".", "");
+
+        String InputFilePath = abspath + "input.txt";
+        String OutputFilePath = abspath + "output.txt";
         
         BufferedReader lector = null;
         FileWriter writer = null;
