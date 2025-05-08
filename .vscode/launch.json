@@ -8,6 +8,13 @@
             "type": "java",
             "name": "main",
             "request": "launch",
+            "mainClass": "main",
+            "projectName": "Prat-24-25_f7c91d8a"
+        },
+        {
+            "type": "java",
+            "name": "main",
+            "request": "launch",
             "mainClass": "Java.AEA4.InvertirParaules.main",
             "projectName": "Prat-24-25-1_c956743f"
         },
