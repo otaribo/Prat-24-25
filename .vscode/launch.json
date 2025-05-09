@@ -6,6 +6,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "CalculArees",
+            "request": "launch",
+            "mainClass": "CalculArees",
+            "projectName": "Prat-24-25-1_c956743f"
+        },
+        {
+            "type": "java",
             "name": "main",
             "request": "launch",
             "mainClass": "Java.AEA4.RegistreTemperaturesGestioErrors.main",
