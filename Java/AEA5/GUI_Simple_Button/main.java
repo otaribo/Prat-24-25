@@ -1,10 +1,13 @@
 package Java.AEA5.GUI_Simple_Button;
 
+import java.awt.Color;
+
 import Java.AEA5.UI;
 
 public class main{
-    UI ui = new UI();
-    public void main(String[] args) {
-        ui.ventana(500,500);
+    public static void main(String[] args){
+        UI ventana = new UI();
+        ventana.setVisible(true);
+        ventana.getContentPane().setBackground(Color.BLUE);
     }
 }
