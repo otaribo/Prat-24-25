@@ -3,11 +3,64 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Blank Page</title>
+    <title>Image Gallery</title>
     <link rel="stylesheet" href="styles.css">
+    <style>
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr); /* 3 columns */
+            gap: 15px; /* Space between images */
+            width: 60%; /* 60% width = 20% margin on each side */
+            margin: 0 auto; /* Center the gallery */
+            padding: 20px 0;
+        }
+
+        .gallery img {
+            width: 100%; /* Fill grid cell */
+            height: auto;
+            aspect-ratio: 1; /* Make images square */
+            object-fit: cover; /* Prevent distortion */
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+    </style>
 </head>
 <body>
-    <h1>Welcome to My Blank Page</h1>
-    <script src="script.js"></script>
+    <h1>Image Gallery</h1>
+    <div class="gallery-container"> <!-- Add this wrapper -->
+        <div class="gallery" id="gallery"></div>
+    </div>
+    <script>
+        fetch('/api/images')
+    .then(response => {
+        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+        return response.json();
+    })
+    .then(data => {
+        console.log('Received:', data); // 👈 Check what's received
+        const gallery = document.getElementById('gallery');
+        
+        if (!data.images || data.images.length === 0) {
+            gallery.innerHTML = '<p>No images found</p>';
+            return;
+        }
+
+        data.images.forEach(image => {
+            const imgElement = document.createElement('img');
+            imgElement.src = `images/${encodeURIComponent(image)}`; // 👈 Handle special chars
+            imgElement.alt = image;
+            imgElement.onerror = () => {
+                console.error(`Failed to load: ${image}`);
+                imgElement.remove();
+            };
+            gallery.appendChild(imgElement);
+        });
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        document.getElementById('gallery').innerHTML = 
+            `<p style="color: red">Error loading images: ${error.message}</p>`;
+    });
+    </script>
 </body>
 </html>
