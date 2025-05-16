@@ -6,6 +6,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "GUIDropMenu",
+            "request": "launch",
+            "mainClass": "Java.AEA5.GUI_DropMenu.GUIDropMenu",
+            "projectName": "Prat-24-25_f7c91d8a"
+        },
+        {
+            "type": "java",
             "name": "GUITextBox",
             "request": "launch",
             "mainClass": "Java.AEA5.GUI_TextBox.GUITextBox",
