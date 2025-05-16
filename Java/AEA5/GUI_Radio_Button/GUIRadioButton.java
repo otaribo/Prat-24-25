@@ -1,7 +1,6 @@
 package Java.AEA5.GUI_Radio_Button;
 
 import javax.swing.*;
-import javax.swing.plaf.basic.BasicBorders.RadioButtonBorder;
 
 public class GUIRadioButton extends JFrame{
     public static final int WIDTH = 500;
